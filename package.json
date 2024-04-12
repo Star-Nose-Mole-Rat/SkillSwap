@@ -11,6 +11,7 @@
   "author": "ashraf, elizabeth, yoonjoo, kobe, jennifer",
   "license": "ISC",
   "dependencies": {
+    "@reduxjs/toolkit": "^2.2.3",
     "body-parser": "^1.20.2",
     "cookie-parser": "^1.4.6",
     "css-loader": "^6.10.0",
