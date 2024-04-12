@@ -1,4 +1,4 @@
-import react from 'react';
+import React from 'react';
 
 const userProfile = () => {
 
@@ -6,7 +6,7 @@ const userProfile = () => {
         <div className='user-profile'>
             <h2>User Profile</h2>
             <div className='profile-picture'>
-                <img src={pictureUrl} />
+                {/* <img href='#' /> */}
             </div>
             <div className='general-info'>
                 <div className='name'>

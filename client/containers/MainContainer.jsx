@@ -1,22 +1,26 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const MainContainer = () => {
+  const navigate = useNavigate();
 
-  const handleLogin = () => {
-
+  const handleLogin = (e) => {
+    e.preventDefault();
+    navigate('/search');
   }  
+
     return (
-        <div>
-          <form>
+        <div> <h3>hi, test</h3>
+          <form onSubmit={handleLogin}>
             <div>
                 <label>Username: 
-                    <input type='text' value={username} />
+                    <input type='text'  />
                 </label>
                 <label>Password:
-                    <input type='password' value={password} />
+                    <input type='password'  />
                 </label>
             </div>
-            <button type='submit' onClick={handleLogin}>Login</button>
+            <button type='submit' >Login</button>
           </form>
         </div>
     )
