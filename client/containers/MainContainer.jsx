@@ -1,7 +1,4 @@
-// Main landing page
-
 import React from 'react';
-import { useSelector } from 'react-redux';
 
 const MainContainer = () => {
 
