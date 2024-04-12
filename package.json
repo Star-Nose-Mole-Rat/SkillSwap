@@ -15,6 +15,7 @@
     "cookie-parser": "^1.4.6",
     "css-loader": "^6.10.0",
     "js-cookie": "^3.0.5",
+    "mongodb": "^6.5.0",
     "mongoose": "^8.3.0",
     "style-loader": "^3.3.4",
     "@reduxjs/toolkit": "^2.1.0",
