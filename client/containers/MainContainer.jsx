@@ -1,5 +1,5 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 
 const MainContainer = () => {
   const navigate = useNavigate();
@@ -10,7 +10,7 @@ const MainContainer = () => {
   }  
 
     return (
-        <div> <h3>hi, test</h3>
+        <div> <h2>SkiLL SwAP</h2>
           <form onSubmit={handleLogin}>
             <div>
                 <label>Username: 
@@ -19,9 +19,12 @@ const MainContainer = () => {
                 <label>Password:
                     <input type='password'  />
                 </label>
+                <button type='submit' >Login</button>
             </div>
-            <button type='submit' >Login</button>
           </form>
+          <div>
+            Don't have an account? <Link to='/signup'>Sign up</Link>
+          </div>
         </div>
     )
 };
