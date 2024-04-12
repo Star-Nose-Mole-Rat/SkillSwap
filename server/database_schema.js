@@ -3,10 +3,17 @@ const mongoose = require("mongoose");
 
 const Schema = mongoose.Schema;
 
-const userSchema = new Schema({
-  displayName: { type: String, required: true },
+const login = new Schema({
   username: { type: String, required: true },
   password: { type: String, required: true },
+});
+
+const Login = mongoose.model("login", login);
+
+// update to be profile schema
+const userSchema = new Schema({
+  displayName: { type: String, required: true },
+  username: { type: mongoose.Schema.Types.ObjectId, ref: "Login" },
   skillVideos: [{ type: mongoose.Schema.Types.ObjectId, ref: "SkillVideo" }],
   points: { type: Number },
   savedSkills: { type: Array },
@@ -21,4 +28,4 @@ const skillsVideoSchema = new Schema({
 
 const SkillVideo = mongoose.model("skillVideo", skillsVideoSchema);
 
-module.exports = { User, SkillVideo };
+module.exports = { Login, User, SkillVideo };
