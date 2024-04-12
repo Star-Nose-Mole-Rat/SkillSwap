@@ -7,12 +7,18 @@ const SearchContainer = () => {
   const redirectToProfile = (e) => {
     e.preventDefault();
     navigate('/profile');
-
   }
+
+  const handleLogout = (e) => {
+    e.preventDefault();
+    navigate('/');
+  }
+
     return (
         <div>
             <nav>
-                <button onClick={redirectToProfile}>Profile</button>
+                <button id='nav_profile' onClick={redirectToProfile}>Profile</button>
+                <button id='nav_logout' onClick={handleLogout}>Logout</button>
             </nav>
             <div>
                 <form>
