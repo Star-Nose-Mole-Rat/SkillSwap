@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "node server/server.js & NODE_ENV=development webpack serve",
+    "dev": "nodemon server/server.js & NODE_ENV=development webpack serve",
     "build": "NODE_ENV=production webpack"
   },
   "author": "ashraf, elizabeth, yoonjoo, kobe, jennifer",
