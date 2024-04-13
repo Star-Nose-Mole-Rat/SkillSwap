@@ -3,46 +3,45 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
   mode: process.env.NODE_ENV,
-  entry: path.join(__dirname, "client", "index.js"),
-	output: {
-    path:path.resolve(__dirname, "dist"),
-    clean: true
+  entry: path.join(__dirname, 'client', 'index.js'),
+  output: {
+    path: path.resolve(__dirname, 'dist'),
+    clean: true,
   },
-	module: {
+  module: {
     rules: [
       {
         test: /\.css/,
-        use: ["style-loader", "css-loader"],
+        use: ['style-loader', 'css-loader'],
       },
       {
         test: /\.js/,
         exclude: /node_modules/,
         use: {
-          loader: "babel-loader",
-					options: {
-            presets: ['@babel/preset-env', '@babel/preset-react']
-          }
-        }
+          loader: 'babel-loader',
+          options: {
+            presets: ['@babel/preset-env', '@babel/preset-react'],
+          },
+        },
       },
-    ]
+    ],
   },
-  devServer :{
-    
-    static:{
+  devServer: {
+    static: {
       directory: path.resolve(__dirname, 'dist'),
-      publicPath: "/dist"
+      publicPath: '/dist',
     },
     proxy: [
       {
-        
-        target: "http://localhost:8080"
-      }
-    ]
+        context: ['/'],
+        target: 'http://localhost:8080',
+      },
+    ],
   },
-  
-	plugins: [
+
+  plugins: [
     new HtmlWebpackPlugin({
-      template: path.join(__dirname, "client", "index.html"),
+      template: path.join(__dirname, 'client', 'index.html'),
     }),
   ],
-}
+};
