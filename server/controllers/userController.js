@@ -1,14 +1,11 @@
-const User = require('../models/database_schema.js');
-
 // in this file we will validate the user and route them to the correct page or redirect them to sign in
 
-const data = require('mongoose');
-const { Login, User } = require('../models/database_schema.js');
+const { Login, User } = require("../models/database_schema.js");
 
 const userController = {};
 
 // validate current user user
-userController.validateUser = async (req, res, next) => {
+userController.verifyUser = async (req, res, next) => {
   // grab the user name and password of req
   const { username, password } = req.body;
 
@@ -18,37 +15,45 @@ userController.validateUser = async (req, res, next) => {
     // if so we route the user to the search page
     // route them to create new user
 
-    res.locals.newUsername = req.body('username');
-    res.locals.newUserPassword = req.body('password');
+    res.locals.newUsername = req.body("username");
+    res.locals.newUserPassword = req.body("password");
     console.log(
-      'newUserEmail',
+      "newUserEmail",
       res.locals.newUserEmail,
-      'newUserPassword',
+      "newUserPassword",
       res.locals.newUserPassword
     );
     next();
   } catch (err) {
     console.log(
-      'we have an error while validating user in homeController',
+      "we have an error while validating user in homeController",
       err
     );
   }
 };
 
 userController.addUser = async (req, res, next) => {
+  console.log("in add user controller");
   // grabs the user info off req
-  const { displayName, username, password } = req.body;
-  // adds it to data base
+  const { username, password } = req.body;
+  // adds it to data base and calls next
+  console.log("destructored code ===>", username, password);
   try {
-    await User.create({
-      displayName,
-      userName,
+    await Login.create({
+      username,
       password,
-      points: 0,
     });
+    console.log("made user");
+    return next();
   } catch (err) {
-    // error handeling
-    console.log(`there is an error in ${err}`);
+    const error = {
+      log: `Express error handler caught error when trying to add a new user in userController ${err}`,
+      status: 500,
+      message: {
+        err: "Express error handler caught error when trying to add a new user in userController",
+      },
+    };
+    return next(error);
   }
 };
 
