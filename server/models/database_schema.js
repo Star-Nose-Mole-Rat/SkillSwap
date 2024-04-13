@@ -1,5 +1,18 @@
 // this file will hold and export the schema for our user Data base
 const mongoose = require("mongoose");
+require("dotenv").config();
+const uri = process.env.URI;
+
+mongoose
+  .connect(uri, {
+    dbName: "test",
+  })
+  .then(() => {
+    console.log("connected to mongodb");
+  })
+  .catch((err) => {
+    console.log(err);
+  });
 
 const Schema = mongoose.Schema;
 
