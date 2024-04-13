@@ -3,6 +3,7 @@ const app = express();
 const path = require('path');
 const PORT = 8080;
 
+<<<<<<< HEAD
 // require routers
 const homeRouter = require('./routes/home.js');
 const profileRouter = require('./routes/userprofile.js');
@@ -14,6 +15,9 @@ app.use(express.urlencoded({ extended: true }));
 // });
 app.use(express.json());
 
+=======
+app.use('/dist', express.static(path.join(__dirname, '../dist')));
+>>>>>>> dev
 app.get('/', (req, res) => {
   return res.status(200).sendFile(path.join(__dirname, '../index.html'));
 });
