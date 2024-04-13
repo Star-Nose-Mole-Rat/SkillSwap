@@ -47,7 +47,7 @@ userController.addUser = async (req, res, next) => {
       points: 0,
     });
   } catch (err) {
-    // error handleing
+    // error handeling
     console.log(`there is an error in ${err}`);
   }
 };
