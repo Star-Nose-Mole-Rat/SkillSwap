@@ -1,32 +1,40 @@
 const express = require('express');
 const app = express();
 const path = require('path');
+const cookieParser = require('cookie-parser');
+
+const userController = require('./controllers/userController.js');
+const cookieController = require('./controllers/cookieController');
+
 const PORT = 8080;
 
-// require routers
-const userRouter = require('./routes/user.js');
-const userController = require('./controllers/userController.js');
-// const profileRouter = require('./routes/userprofile.js');
-// const searchRouter = require('./routes/search.js');
-
-app.use(express.urlencoded({ extended: true }));
-// app.post('submit', (req, res) => {
-//   console.log(req.body);
-// });
+/* Automatically parse urlencoded body content and form data from
+incoming requests and place it in req.body */
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
 
-app.get('/', (req, res) => {
+// root (homepage)
+app.get('/', cookieController.setCookie, (req, res) => {
   return res.status(200).sendFile(path.join(__dirname, '../index.html'));
 });
 
-app.post('/login', userController.verifyUser);
-app.get('/signup', (req, res) => {
-  return res.status(200).redirect('/signup');
+// login
+app.post('/login', userController.validateUser, cookieController.setSSIDCookie, (req, res) => {
+  // On successful login, redirects to search page
+  return res.status(200).redirect('/search');
 });
-app.post('/signup', userController.addUser);
-// from here will can do a port request or a
-// app.use('/userprofile', profileRouter);
-// app.use('/search', searchRouter);
+
+// signup
+app.get('/signup', (req, res) => {
+  // Returns signup page (***need signup page route from frontend****)
+  return res.status(200);
+});
+
+app.post('/signup', userController.addUser, cookieController.setSSIDCookie, (req, res) => {
+  // On successful signup, redirects to search page
+  return res.status(200).redirect('/search');
+});
 
 //NOTE: catch all route handler for any request to an unknown route
 app.use((req, res) => {
