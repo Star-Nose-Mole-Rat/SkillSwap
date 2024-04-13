@@ -1,6 +1,10 @@
 const express = require('express');
 const app = express();
 const path = require('path');
+const cookieParser = require('cookie-parser');
+
+const userController = require('./controllers/userController');
+const cookieController = require('./controllers/cookieController');
 
 app.use('/dist', express.static(path.join(__dirname, '../dist')));
 app.get('/', (req, res) => {
