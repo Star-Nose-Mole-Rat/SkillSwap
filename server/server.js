@@ -4,19 +4,24 @@ const path = require('path');
 const PORT = 8080;
 
 // require routers
-const apiRouter = require('./routes/api.js');
+const homeRouter = require('./routes/home.js');
 const profileRouter = require('./routes/userprofile.js');
 const searchRouter = require('./routes/search.js');
 
+app.use(express.urlencoded({ extended: true }));
+// app.post('submit', (req, res) => {
+//   console.log(req.body);
+// });
 app.use(express.json());
-
-app.use('/api', apiRouter);
-app.use('/userprofile', profileRouter);
-app.use('/search', searchRouter);
 
 app.get('/', (req, res) => {
   return res.status(200).sendFile(path.join(__dirname, '../index.html'));
 });
+
+app.use('/home', homeRouter);
+app.use('/userprofile', profileRouter);
+app.use('/search', searchRouter);
+
 //NOTE: catch all route handler for any request to an unknown route
 app.use((req, res) => {
   this.response.sendStatus(404);
