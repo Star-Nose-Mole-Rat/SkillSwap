@@ -4,7 +4,8 @@ const path = require('path');
 const PORT = 8080;
 
 // require routers
-const homeRouter = require('./routes/home.js');
+const userRouter = require('./routes/user.js');
+const userController = require('./controllers/userController.js');
 // const profileRouter = require('./routes/userprofile.js');
 // const searchRouter = require('./routes/search.js');
 
@@ -18,7 +19,12 @@ app.get('/', (req, res) => {
   return res.status(200).sendFile(path.join(__dirname, '../index.html'));
 });
 
-app.use('/home', homeRouter);
+app.post('/login', userController.verifyUser);
+app.get('/signup', (req, res) => {
+  return res.status(200).redirect('/signup');
+});
+app.post('/signup', userController.addUser);
+// from here will can do a port request or a
 // app.use('/userprofile', profileRouter);
 // app.use('/search', searchRouter);
 
