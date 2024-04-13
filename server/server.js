@@ -7,5 +7,10 @@ app.get('/', (req, res) => {
 
 	return res.status(200).sendFile(path.join(__dirname, '../index.html'));
   });
+
+app.get('/search', (req, res) => {
+  console.log('query', req.query.searchword);
+  return res.status(200).send(['banana', 'apple', 'pineapple']);
+})
 	
 app.listen(8080);

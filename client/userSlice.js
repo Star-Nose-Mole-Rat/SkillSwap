@@ -4,7 +4,7 @@ const initialState = {
 	password: 'none',
 	skills: [],
 	points: 0,
-	videos: [],
+	videos: [`how to solve for resistance, ohm\'s law`, 'how to play for Elise', 'how to make delicious coffee'] 
   };
 
   export const userSlice = createSlice({
