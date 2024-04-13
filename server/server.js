@@ -3,8 +3,8 @@ const app = express();
 const path = require('path');
 const PORT = 8080;
 
-// require routers
-const userRouter = require('./routes/user.js');
+// require controller
+// const userRouter = require('./routes/user.js');
 const userController = require('./controllers/userController.js');
 // const profileRouter = require('./routes/userprofile.js');
 // const searchRouter = require('./routes/search.js');
@@ -20,16 +20,22 @@ app.get('/', (req, res) => {
 });
 
 app.post('/login', userController.verifyUser);
+
+//FIXME:  ..client/signup.html' is not exist yet
 app.get('/signup', (req, res) => {
-  return res.status(200).redirect('/signup');
+  return res
+    .status(200)
+    .sendFile(path.resolve(__dirname, '..client/signup.html'));
 });
-app.post('/signup', userController.addUser);
+app.post('/signup', userController.addUser, (req, res) => {
+  return res.status(200).redirect('/userprofile');
+});
 // from here will can do a port request or a
 // app.use('/userprofile', profileRouter);
 // app.use('/search', searchRouter);
 
 //NOTE: catch all route handler for any request to an unknown route
-app.use((req, res) => {
+app.use('*', (req, res) => {
   this.response.sendStatus(404);
 });
 

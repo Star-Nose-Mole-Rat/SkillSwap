@@ -1,5 +1,3 @@
-const User = require('../models/database_schema.js');
-
 // in this file we will validate the user and route them to the correct page or redirect them to sign in
 
 const data = require('mongoose');
@@ -8,16 +6,16 @@ const { Login, User } = require('../models/database_schema.js');
 const userController = {};
 
 // validate current user user
-userController.validateUser = async (req, res, next) => {
+userController.verifyUser = async (req, res, next) => {
   // grab the user name and password of req
   const { username, password } = req.body;
 
   // use our database to check to see if the user name and password match an existing username and password
   try {
-    await Login.findOne({ username: username });
+    const user = await Login.findOne({ username: username });
+    if (!user) return res.redirect('/signup');
     // if so we route the user to the search page
     // route them to create new user
-
     res.locals.newUsername = req.body('username');
     res.locals.newUserPassword = req.body('password');
     console.log(
@@ -46,9 +44,10 @@ userController.addUser = async (req, res, next) => {
       password,
       points: 0,
     });
+    return next();
   } catch (err) {
     // error handeling
-    console.log(`there is an error in ${err}`);
+    console.log(`Error in userController.addUser:  ${err}`);
   }
 };
 
