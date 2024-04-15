@@ -1,4 +1,4 @@
-const express = require('express');
+const express = require("express");
 const app = express();
 const path = require('path');
 const cookieParser = require('cookie-parser');
@@ -41,12 +41,16 @@ app.use((req, res) => {
   this.response.sendStatus(404);
 });
 
+
+
+
+
 // global error handler
 app.use((err, req, res, next) => {
   const defaultErr = {
-    log: 'Express error handler caught unknown middleware error',
+    log: "Express error handler caught unknown middleware error",
     status: 500,
-    message: { err: 'An error occurred' },
+    message: { err: "An error occurred" },
   };
 
   //trigger it to run
@@ -60,3 +64,9 @@ app.listen(PORT, () => {
 });
 
 // module.exports = app;
+
+
+
+
+	
+

@@ -1,16 +1,19 @@
 import { createSlice } from '@reduxjs/toolkit'
 const initialState = {
-  username: 'none',
-	password: 'none',
+  	username: 'none',
+	displayName: 'none',
 	skills: [],
 	points: 0,
-	videos: [],
+	videos: [`how to solve for resistance, ohm\'s law`, 'how to play for Elise', 'how to make delicious coffee'] 
   };
 
   export const userSlice = createSlice({
 	name: 'users',
 	initialState,
 	reducers: {
+		addDisplayName: (state, action) => {
+			state.displayName = action.payload;
+		},
 		addUser: (state, action) => {
 			state.username = action.payload;
         },
@@ -25,5 +28,5 @@ const initialState = {
 			},
 		}
   })
-export const {addUser, addSkill, addVideo, addToPoints} = userSlice.actions;
+export const {addUser, addDisplayName, addSkill, addVideo, addToPoints} = userSlice.actions;
 export default userSlice.reducer;
