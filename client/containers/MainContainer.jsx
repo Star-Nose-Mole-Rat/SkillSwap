@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { Button } from 'react-bootstrap';
+import { Button, Form, FormGroup, Row, Col, Container } from 'react-bootstrap';
 
 const MainContainer = () => {
   const navigate = useNavigate();
@@ -11,25 +11,49 @@ const MainContainer = () => {
   }  
 
     return (
-        <div> <h2>SkiLL SwAP</h2>
-          <form onSubmit={handleLogin}>
-            <div>
-                <label>Username : 
-                    <input type='text'  />
-                </label>
-                <br/>
-                <label>Password : 
-                    <input type='password'  />
-                </label>
-                
-                <Button type='submit' variant='light'>Login</Button>
-            </div>
-          </form>
-          <div>
+      <Container className="mt-3">
+      <Row className="justify-content-center">
+        <Col sm={8}>
+          <div className="text-center">
+            <h2>SkiLL SwAP</h2>
+          </div>
+          
+          <Form style={{ marginTop: '100px' }} onSubmit={handleLogin}>
+            <Row className="align-items-center">
+              <Col sm={3}>
+                <FormGroup>
+                  <Form.Label>Username:</Form.Label>
+                </FormGroup>
+              </Col>
+              <Col sm={6}>
+                <FormGroup>
+                  <Form.Control type='text' />
+                </FormGroup>
+              </Col>
+            </Row>
+            <Row className="align-items-center">
+              <Col sm={3}>
+                <FormGroup>
+                  <Form.Label>Password:</Form.Label>
+                </FormGroup>
+              </Col>
+              <Col sm={6}>
+                <FormGroup>
+                  <Form.Control type='password' />
+                </FormGroup>
+              </Col>
+              <Col sm={3} className='d-flex justify-content-end'>
+                <Button type='submit' variant='info'>Login</Button>
+              </Col>
+            </Row>
+          </Form>
+          <div className="text-center mt-3">
             Don't have an account? <Link to='/signup'>Sign up</Link>
           </div>
-        </div>
-    )
+        </Col>
+      </Row>
+    </Container>
+  );
 };
 
 
