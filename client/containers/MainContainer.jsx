@@ -1,5 +1,6 @@
 import React from 'react';
 import { useNavigate, Link } from 'react-router-dom';
+import { Button } from 'react-bootstrap';
 
 const MainContainer = () => {
   const navigate = useNavigate();
@@ -13,13 +14,15 @@ const MainContainer = () => {
         <div> <h2>SkiLL SwAP</h2>
           <form onSubmit={handleLogin}>
             <div>
-                <label>Username: 
+                <label>Username : 
                     <input type='text'  />
                 </label>
-                <label>Password:
+                <br/>
+                <label>Password : 
                     <input type='password'  />
                 </label>
-                <button type='submit' >Login</button>
+                
+                <Button type='submit' variant='light'>Login</Button>
             </div>
           </form>
           <div>
