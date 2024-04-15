@@ -31,7 +31,7 @@ const MainContainer = () => {
                 </FormGroup>
               </Col>
             </Row>
-            <Row className="align-items-center">
+            <Row className="align-items-center" style={{ marginTop: '10px' }}>
               <Col sm={3}>
                 <FormGroup>
                   <Form.Label>Password:</Form.Label>

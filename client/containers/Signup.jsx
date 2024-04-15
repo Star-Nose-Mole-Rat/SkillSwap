@@ -23,12 +23,12 @@ const Signup = () => {
             body: JSON.stringify({ username, password })
           })
           .then(data => data.json())
-          .then(data => console.log(data))
+          .then(data => {
+            console.log(data)
+            navigate('/search');
+          })
           .catch(err => { console.log('invalid fetch request', err)});
       
-
-
-        // navigate('/search');
     }
 
     return (        
@@ -38,7 +38,7 @@ const Signup = () => {
             <div className="text-center">
                 <h2>Welcome!</h2>
             </div>
-            <Form onSubmit={handleRegister}>
+            <Form style={{ marginTop: '50px' }} onSubmit={handleRegister}>
               <Row className='align-items-center'>
                 <Col sm={3}>
                   <FormGroup>
@@ -51,7 +51,7 @@ const Signup = () => {
             </FormGroup>
           </Col>
         </Row>
-        <Row className='align-items-center'>
+        <Row className='align-items-center' style={{ marginTop: '10px' }}>
           <Col sm={3}>
             <FormGroup>
               <Form.Label>Password:</Form.Label>
