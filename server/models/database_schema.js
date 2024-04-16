@@ -26,7 +26,8 @@ const Login = mongoose.model("login", login);
 // update to be profile schema
 const userSchema = new Schema({
   displayName: { type: String, required: true },
-  username: { type: mongoose.Schema.Types.ObjectId, ref: "Login" },
+  // this links this user to the log in credentials by the id
+  user: { type: mongoose.Schema.Types.ObjectId, ref: "Login" },
   skillVideos: [{ type: mongoose.Schema.Types.ObjectId, ref: "SkillVideo" }],
   points: { type: Number },
   savedSkills: { type: Array },
@@ -34,9 +35,9 @@ const userSchema = new Schema({
 const User = mongoose.model("user", userSchema);
 
 const skillsVideoSchema = new Schema({
-  subject: { type: Number, required: true },
-  title: { type: Number, required: true },
-  url: { type: Number, required: true },
+  subject: { type: String, required: true },
+  title: { type: String, required: true },
+  url: { type: String, required: true },
 });
 
 const SkillVideo = mongoose.model("skillVideo", skillsVideoSchema);

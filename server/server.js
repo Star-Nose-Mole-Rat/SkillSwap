@@ -4,6 +4,7 @@ const path = require("path");
 const PORT = 8080;
 
 const userController = require("./controllers/userController.js");
+const profileController = require("./controllers/profileController.js");
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -24,6 +25,8 @@ app.post("/signup", userController.addUser, (req, res) => {
 // from here will can do a port request or a
 // app.use('/userprofile', profileRouter);
 // app.use('/search', searchRouter);
+// respond to a post request to /addSkill
+app.post("/addSkill", profileController.addSkill);
 
 //NOTE: catch all route handler for any request to an unknown route
 app.use((req, res) => {
