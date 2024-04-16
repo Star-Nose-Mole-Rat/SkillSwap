@@ -1,7 +1,7 @@
 const express = require("express");
 const app = express();
 const path = require("path");
-const PORT = 8080;
+const PORT = 3000;
 
 const userController = require("./controllers/userController.js");
 const profileController = require("./controllers/profileController.js");
