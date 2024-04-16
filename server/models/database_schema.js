@@ -1,7 +1,7 @@
 // this file will hold and export the schema for our user Data base
 const mongoose = require('mongoose');
 require('dotenv').config();
-const uri = process.env.URI;
+const uri = 'mongodb+srv://dbUser:50MAnty72bFlBdsh@skillswap.irepd3l.mongodb.net/?retryWrites=true&w=majority&appName=SkillSwap';
 
 mongoose
   .connect(uri, {
