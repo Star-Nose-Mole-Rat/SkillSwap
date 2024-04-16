@@ -5,14 +5,14 @@ const PORT = 3000;
 const userController = require('./controllers/userController.js');
 
 // REFERENCE: https://www.npmjs.com/package/multer-gridfs-storage
-const multer = require('multer');
-const { GridFsStorage } = require('multer-gridfs-storage');
-const methodOverride = require('method-override');
-const crypto = require('crypto');
+// const multer = require('multer');
+// const { GridFsStorage } = require('multer-gridfs-storage');
+// const methodOverride = require('method-override');
+// const crypto = require('crypto');
 require('dotenv').config();
 const uri =
   'mongodb+srv://dbUser:50MAnty72bFlBdsh@skillswap.irepd3l.mongodb.net/?retryWrites=true&w=majority&appName=SkillSwap';
-console.log('URI!!!!!', uri);
+console.log('URI====>', uri);
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
