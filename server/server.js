@@ -28,10 +28,21 @@ app.post("/signup", userController.addUser, (req, res) => {
 // respond to a post request to /addSkill
 app.post("/addSkill", profileController.addSkill);
 
+//test search query
+app.get('/search', (req, res) => {
+  console.log('query', req.query.searchword);
+  return res.status(200).send(['banana', 'apple', 'pineapple']);
+})
+
+
 //NOTE: catch all route handler for any request to an unknown route
 app.use((req, res) => {
   this.response.sendStatus(404);
 });
+
+
+
+
 
 // global error handler
 app.use((err, req, res, next) => {
@@ -52,3 +63,9 @@ app.listen(PORT, () => {
 });
 
 // module.exports = app;
+
+
+
+
+	
+
