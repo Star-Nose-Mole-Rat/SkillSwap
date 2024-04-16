@@ -1,4 +1,4 @@
-const express = require("express");
+const express = require('express');
 const app = express();
 const path = require('path');
 const cookieParser = require('cookie-parser');
@@ -13,9 +13,6 @@ incoming requests and place it in req.body */
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
-
-/* Handle request for static files */
-app.use(express.static(path.resolve(__dirname, '../client')));
 
 // root (homepage)
 app.get('/', cookieController.setCookie, (req, res) => {
@@ -34,18 +31,22 @@ app.get('/signup', (req, res) => {
   return res.status(200).redirect('/signup');
 });
 
+// when making a post request to sign up on success will respond with 200
 app.post('/signup', userController.addUser, cookieController.setSSIDCookie, (req, res) => {
-  // On successful signup, redirects to search page
-  return res.status(200);
+  return res.sendStatus(200);
 });
+// from here will can do a port request or a 
+// app.use('/userprofile', profileRouter);
+// app.use('/search', searchRouter);
 
 /* Authorized routes */
 app.get('/search', (req, res) => {
-  return res.status(200).redirect('/search');
+  console.log('query', req.query.searchword);
+  return res.status(200).send(['banana', 'apple', 'pineapple']);
 });
 
 app.get('/profile', (req, res) => {
-  return res.status(200).redirect('/profile');
+  return res.status(200);
 });
 
 //NOTE: catch all route handler for any request to an unknown route

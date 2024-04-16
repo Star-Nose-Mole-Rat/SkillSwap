@@ -1,13 +1,15 @@
+// in this file we will validate the user and route them to the correct page or redirect them to sign in
 const { User, Profile } = require('../models/database_schema.js');
 
 const userController = {};
 
-// Verifies the user on login.
+// validate current user
 userController.verifyUser = (req, res, next) => {
   // grab the username and password from the request body
   const { username, password } = req.body;
   // locate the user in the db
   User.findOne({ username: username })
+    .exec()
     .then((user) => {
       // authenticate the password
       if (User.comparePasswords(password, user.password)) {
@@ -33,6 +35,7 @@ userController.addUser = (req, res, next) => {
     username,
     password
   })
+    .exec()
     .then((newUser) => {
       console.log('New user saved to db.');
       console.log(newUser);
@@ -42,6 +45,7 @@ userController.addUser = (req, res, next) => {
         username: newUser._id,
         points: 0
       })
+        .exec()
         .then((newProfile) => {
           console.log('New user profile created.');
           console.log(newProfile);

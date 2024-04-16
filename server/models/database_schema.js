@@ -1,3 +1,4 @@
+// this file will hold and export the schema for our database
 const mongoose = require('mongoose');
 // Needed to access process.env
 require('dotenv').config();
@@ -24,13 +25,15 @@ const userSchema = new Schema({
 });
 
 userSchema.pre('save', async (next) => {
+  console.log(this);
   const user = this;
-  if (!user.isModified('password')) return next();
   try {
     // Create salt using work factor
     const salt = await bcrypt.genSalt(WORK_FACTOR);
     // Save password as hashed version
+    console.log(salt)
     user.password = await bcrypt.hash(user.password, salt);
+    console.log(user.password)
     return next();
   }
   catch (err) {
@@ -84,5 +87,5 @@ const Video = mongoose.model('video', videoSchema);
 module.exports = {
   User,
   Profile,
-  Video,
+  Video
 };
