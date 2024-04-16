@@ -27,6 +27,7 @@ module.exports = {
     ],
   },
   devServer: {
+    historyApiFallback: true,
     static: {
       directory: path.resolve(__dirname, 'dist'),
       publicPath: '/dist',
@@ -44,4 +45,5 @@ module.exports = {
       template: 'index.html',
     }),
   ],
+  
 };

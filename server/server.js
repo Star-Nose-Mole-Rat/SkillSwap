@@ -1,7 +1,8 @@
 const express = require('express');
 const app = express();
 const path = require('path');
-const PORT = 3000;
+const PORT = 8080;
+
 const userController = require('./controllers/userController.js');
 
 // REFERENCE: https://www.npmjs.com/package/multer-gridfs-storage
@@ -16,15 +17,13 @@ console.log('URI====>', uri);
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-// app.use(express.static(path.join(__dirname, '../index.html')));
-
 app.get('/', (req, res) => {
   return res.status(200).sendFile(path.join(__dirname, '../index.html'));
 });
 
-app.get('/signup', (req, res) => {
-  return res.status(200).send('hi');
-});
+// app.get("/signup", (req, res) => {
+//   return res.status(200).redirect("/signup");
+// });
 
 // when making a post request to sign up on sucess will respond with 200
 app.post('/signup', userController.addUser, (req, res) => {
@@ -35,26 +34,12 @@ app.post('/signup', userController.addUser, (req, res) => {
 // app.use('/userprofile', profileRouter);
 // app.use('/search', searchRouter);
 
-// create storage engine
-// const storage = new GridFsStorage({
-//   url: uri,
-//   file: (req, file) => {
-//     return new Promise((resolve, reject) => {
-//       crypto.randomBytes(16, (err, buf) => {
-//         if (err) {
-//           return reject(err);
-//         }
-//         const filename = buf.toString('hex') + path.extname(file.originalname);
-//         const fileInfo = {
-//           filename: filename,
-//           bucketName: 'uploads',
-//         };
-//         resolve(fileInfo);
-//       });
-//     });
-//   },
-// });
-// const upload = multer({ storage });
+//test search query
+app.get('/search', (req, res) => {
+  console.log('query', req.query.searchword);
+  return res.status(200).send(['banana', 'apple', 'pineapple']);
+});
+
 //NOTE: catch all route handler for any request to an unknown route
 app.use('*', (req, res) => {
   this.response.sendStatus(404);
