@@ -57,6 +57,10 @@ app.use('*', (req, res) => {
   this.response.sendStatus(404);
 });
 
+
+
+
+
 // global error handler
 app.use((err, req, res, next) => {
   const defaultErr = {
@@ -76,3 +80,9 @@ app.listen(PORT, () => {
 });
 
 // module.exports = app;
+
+
+
+
+	
+

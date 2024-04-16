@@ -1,0 +1,1 @@
+We created GET request in server.js file to test our frontend and backend talking to each other using dummy data ['banana', 'apple', 'pineapple']. The fetch request from the frontend was working fine with this test code so when you are creating a db of videos, just make sure it needs to be in an array of strings. Thanks!
