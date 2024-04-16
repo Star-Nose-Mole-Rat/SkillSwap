@@ -1,13 +1,39 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { Button, Form, FormGroup, Row, Col, Container } from 'react-bootstrap';
+import { useDispatch } from 'react-redux';
+import { addVideos, addPoints, addUser } from '../userSlice';
 
 const MainContainer = () => {
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleLogin = (e) => {
     e.preventDefault();
-    navigate('/search');
+
+    fetch('/login', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ username, password })
+          })
+          .then(data => {
+            if (data.ok) return data.json()
+          })
+          .then(data => {
+            console.log(data);
+            
+            dispatch(addUser(username));
+            dispatch(addVideos(data.videos));
+            dispatch(addPoints(data.points));
+            navigate('/search');
+            
+          })
+          .catch(err => { console.log('Error in Login', err)});
   }  
 
     return (
@@ -27,7 +53,7 @@ const MainContainer = () => {
               </Col>
               <Col sm={6}>
                 <FormGroup>
-                  <Form.Control type='text' />
+                  <Form.Control type='text' value={username} onChange={(e) => setUsername(e.target.value)} />
                 </FormGroup>
               </Col>
             </Row>
@@ -39,10 +65,10 @@ const MainContainer = () => {
               </Col>
               <Col sm={6}>
                 <FormGroup>
-                  <Form.Control type='password' />
+                  <Form.Control type='password' onChange={(e) => setPassword(e.target.value)}/>
                 </FormGroup>
               </Col>
-              <Col sm={3} className='d-flex justify-content-end'>
+              <Col sm={3} className='d-flex justify-content-start'>
                 <Button type='submit' variant='info'>Login</Button>
               </Col>
             </Row>

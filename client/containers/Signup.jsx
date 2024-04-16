@@ -20,15 +20,16 @@ const Signup = () => {
             headers: {
               'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ username, password })
+            body: JSON.stringify({ username, password, displayName })
           })
-          .then(data => data.json())
           .then(data => {
-            console.log(data)
+            console.log(data);
+            dispatch(addUser(username));
             navigate('/search');
+            
           })
-          .catch(err => { console.log('invalid fetch request', err)});
-      
+          .catch(err => { console.log('Error in Signup', err)});
+          
     }
 
     return (        
@@ -40,36 +41,48 @@ const Signup = () => {
             </div>
             <Form style={{ marginTop: '50px' }} onSubmit={handleRegister}>
               <Row className='align-items-center'>
-                <Col sm={3}>
+                <Col sm={5}>
                   <FormGroup>
                     <Form.Label>Username:</Form.Label>
                   </FormGroup>
                 </Col>
-          <Col sm={8}>
-            <FormGroup>
-              <Form.Control type='text' value={username} onChange={(e) => setUsername(e.target.value)} />
-            </FormGroup>
+                <Col sm={5}>
+                  <FormGroup>
+                    <Form.Control type='text' value={username} onChange={(e) => setUsername(e.target.value)} />
+                  </FormGroup>
+                </Col>
+              </Row>
+              <Row className='align-items-center' style={{ marginTop: '10px' }}>
+                <Col sm={5}>
+                  <FormGroup>
+                    <Form.Label>Password:</Form.Label>
+                  </FormGroup>
+                </Col>
+                <Col sm={5}>
+                  <FormGroup>
+                    <Form.Control type='password' value={password} onChange={(e) => setPassword(e.target.value)} />
+                  </FormGroup>
+                </Col>
+              </Row>
+              <Row className='d-flex align-items-center' style={{ marginTop: '10px' }}>
+                <Col sm={5}>
+                  <FormGroup>
+                    <Form.Label>Display Name:</Form.Label>
+                  </FormGroup>
+                </Col>
+                <Col sm={5}>
+                  <FormGroup>
+                    <Form.Control type='text' value={displayName} onChange={(e) => setDisplayName(e.target.value)} />
+                  </FormGroup>
+                </Col>
+              </Row>
+              <Row className='align-items-center justify-content-center mt-3'>
+                <Button type='submit' variant='info' style={{ width: '100px' }}>Register</Button>
+              </Row>
+            </Form>
           </Col>
         </Row>
-        <Row className='align-items-center' style={{ marginTop: '10px' }}>
-          <Col sm={3}>
-            <FormGroup>
-              <Form.Label>Password:</Form.Label>
-            </FormGroup>
-          </Col>
-          <Col sm={8}>
-            <FormGroup>
-              <Form.Control type='password' value={password} onChange={(e) => setPassword(e.target.value)} />
-            </FormGroup>
-          </Col>
-        </Row>
-        <Row className='align-items-center justify-content-center mt-3'>
-            <Button type='submit' variant='info' style={{ width: '100px' }}>Register</Button>
-        </Row>
-      </Form>
-    </Col>
-  </Row>
-  </Container>
+      </Container>
     )
 };
 

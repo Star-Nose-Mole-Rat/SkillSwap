@@ -34,7 +34,7 @@ module.exports = {
     proxy: [
       {
         context: ['/'],
-        target: 'http://localhost:8080',
+        target: 'http://localhost:3000',
       },
     ],
   },

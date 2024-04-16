@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch, useEffect } from 'react-redux';
+import { Button, Nav, Navbar, Container } from 'react-bootstrap';
 import { addVideo } from '../userSlice';
 
 const SearchContainer = () => {
@@ -45,15 +46,20 @@ const SearchContainer = () => {
 
     return (
         <div>
-            <nav>
-                <button id='nav_profile' onClick={redirectToProfile}>Profile</button>
-                <button id='nav_logout' onClick={handleLogout}>Logout</button>
-            </nav>
-            <div>
-                
-                    <input type='text' id='input_search' onChange={handleSearchChange} placeholder='Search...' />
-                    <button onClick={handleSearch}>Search</button>
-                
+            <Navbar expand='lg' className='bg-body-tertiary'>
+              <Container className='m-0'>
+                <div className='d-flex justify-content-start align-items-center'>
+                <Navbar.Brand href='./search' className='ml-0'>Skill Swap</Navbar.Brand>
+                <Button id='nav_profile' variant='info' onClick={redirectToProfile}>Profile</Button>
+                </div>
+                <div className='d-flex justify-content-end align-items-center m-0'>
+                  <Button id='nav_logout' variant='light' onClick={handleLogout}>Logout</Button>
+                </div>
+              </Container>
+            </Navbar>
+            <div className='d-flex justify-content-center'>
+              <input type='text' id='input_search' onChange={handleSearchChange} placeholder='Search...' style={{ marginRight: '10px' }}/>
+                <Button onClick={handleSearch} className='btn btn-info'>Search</Button>
             </div>
             <div className='searchResults'>
               {videos.map(video => <p>{video}</p>)}
