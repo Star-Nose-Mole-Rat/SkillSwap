@@ -21,16 +21,22 @@ app.get('/', cookieController.setCookie, (req, res) => {
 });
 
 // signup
-app.get('/signup', (req, res) => {
-  // Returns signup page
-  return res.status(200).redirect('/signup');
-});
+// app.get('/signup', (req, res) => {
+//   // Returns signup page
+//   return res.status(200)
+// });
 
 // when making a post request to sign up on success will respond with 200
-app.post('/signup', userController.addUser, cookieController.setSSIDCookie, (req, res) => {
-  return res.sendStatus(200);
-});
-// from here will can do a port request or a 
+app.post(
+  '/signup',
+  userController.addUser,
+  cookieController.setSSIDCookie,
+  (req, res) => {
+    console.log('new user added');
+    return res.sendStatus(200);
+  }
+);
+// from here will can do a port request or a
 // app.use('/userprofile', profileRouter);
 // app.use('/search', searchRouter);
 
@@ -77,9 +83,3 @@ app.listen(PORT, () => {
 });
 
 module.exports = app;
-
-
-
-
-	
-
