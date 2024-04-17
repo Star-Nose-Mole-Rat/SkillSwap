@@ -39,10 +39,17 @@ userSchema.pre("save", async function (next) {
 });
 
 userSchema.statics.verifyPassword = async (password, hashedPassword) => {
+userSchema.statics.verifyPassword = async function(password, hashedPassword) {
   try {
     // Check for matching password
     return await bcrypt.compare(password, hashedPassword);
   } catch (err) {
+    console.log('checking for matching passwords')
+    const result = await bcrypt.compare(password, hashedPassword);
+    console.log(result);
+    return result;
+  }
+  catch (err) {
     console.log(`Error comparing passwords for verification: ${err}`);
   }
 };
