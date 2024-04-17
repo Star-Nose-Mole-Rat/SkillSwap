@@ -48,9 +48,9 @@ app.get('/profile', (req, res) => {
 });
 
 // frontend login test 
-app.post('/login', (req, res) => {
-  return res.status(200).send({ points: 100, videos: ['abc', 'banana', 'water']});
-})
+// app.post('/login', (req, res) => {
+//   return res.status(200).send({ points: 100, videos: ['abc', 'banana', 'water']});
+// })
 
 
 // frontend test search query

@@ -13,6 +13,7 @@ const userProfile = () => {
     const listOfVideos = useSelector(state => state.users.videos);
     const username = useSelector(state => state.users.username);
     const points = useSelector(state => state.users.points);
+    const displayName = useSelector(state => state.users.displayName);
     
 
     const handleAddVideo = e => {
@@ -29,21 +30,25 @@ const userProfile = () => {
     return (
         <div>
           <NavBar />
+          <Row className='justify-content-center'>
             <div>
               <h2>User Profile</h2>
             </div>
+          </Row>
             <div className='profile-picture'>
                 {/* <img href='#' /> */}
             </div>
             <div className='general-info'>
               <div className='name'>
-                <p>name</p>
-                  {username}
+                <p>Username: {username}</p>
+                </div>
+                <div>
+                    <p>Display Name: {displayName}</p>
                 </div>
                 <div className='points'>
-                    <p>points</p>
-                    {points}
+                    <p>Points: {points}</p>                    
                 </div>
+                
                 <div className='uploadVideo'>
                     <p>upload video button here</p>
                     <input type = 'text' value={video} onChange={(e) => setVideo(e.target.value)}></input>

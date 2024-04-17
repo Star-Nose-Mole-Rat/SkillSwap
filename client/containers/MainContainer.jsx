@@ -22,16 +22,12 @@ const MainContainer = () => {
             body: JSON.stringify({ username, password })
           })
           .then(data => {
-            if (data.ok) return data.json()
-          })
-          .then(data => {
-            console.log(data);
-            
+            if (data.ok) {
             dispatch(addUser(username));
-            dispatch(addVideos(data.videos));
-            dispatch(addPoints(data.points));
+            // dispatch(addVideos(data.videos));
+            // dispatch(addPoints(data.points));
             navigate('/search');
-            
+            }
           })
           .catch(err => { console.log('Error in Login', err)});
   }  
