@@ -5,6 +5,7 @@ import MainContainer from './containers/MainContainer.jsx';
 import SearchContainer from './containers/SearchContainer.jsx';
 import UserProfile from './containers/UserProfile.jsx';
 import Signup from './containers/Signup.jsx';
+import './stylesheet/styles.css';
 
 const App = () => {
     return (

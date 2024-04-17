@@ -25,22 +25,20 @@ app.post("/signup", userController.addUser, (req, res) => {
 // app.use('/userprofile', profileRouter);
 // app.use('/search', searchRouter);
 
-// login test 
+// frontend login test 
 app.post('/login', (req, res) => {
   return res.status(200).send({ points: 100, videos: ['abc', 'banana', 'water']});
 })
 
 
-
-
-//test search query
-app.get('/search', (req, res) => {
+// frontend test search query
+app.get('/searchKeyword', (req, res) => {
   console.log('query', req.query.searchword);
   return res.status(200).send(['banana', 'apple', 'pineapple']);
 })
 
 
-// test for addvideo
+// frontend test for addvideo
 app.get('/addvideo', (req, res) => {
   console.log('query.username', req.query.username)
   console.log('query.videouri', req.query.videouri);
@@ -49,7 +47,12 @@ app.get('/addvideo', (req, res) => {
 
 //NOTE: catch all route handler for any request to an unknown route
 app.use((req, res) => {
-  this.response.sendStatus(404);
+  return res.status(200).sendFile(path.join(__dirname, '../dist/index.html'), (err) => {
+    if (err) {
+      console.log(err);
+      return res.status(500).send('An error occured');
+    }
+  });
 });
 
 

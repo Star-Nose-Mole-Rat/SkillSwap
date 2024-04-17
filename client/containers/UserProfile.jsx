@@ -1,7 +1,10 @@
 import React from 'react';
+import { Button, Col, Row, Container } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { addVideo } from '../userSlice';
 import { useState } from 'react';
+import NavBar from '../components/Nav.jsx';
+import YoutubeEmbed from '../components/YoutubeEmbed.jsx';
 
 const userProfile = () => {
     const [video, setVideo] = useState('');
@@ -10,6 +13,7 @@ const userProfile = () => {
     const listOfVideos = useSelector(state => state.users.videos);
     const username = useSelector(state => state.users.username);
     const points = useSelector(state => state.users.points);
+    
 
     const handleAddVideo = e => {
         e.preventDefault();
@@ -23,15 +27,18 @@ const userProfile = () => {
         .catch(err => console.log('Error in handleAddVideo', err))
     }
     return (
-        <div className='user-profile'>
-            <h2>User Profile</h2>
+        <div>
+          <NavBar />
+            <div>
+              <h2>User Profile</h2>
+            </div>
             <div className='profile-picture'>
                 {/* <img href='#' /> */}
             </div>
             <div className='general-info'>
-                <div className='name'>
-                    <p>name</p>
-                    {username}
+              <div className='name'>
+                <p>name</p>
+                  {username}
                 </div>
                 <div className='points'>
                     <p>points</p>
@@ -40,11 +47,16 @@ const userProfile = () => {
                 <div className='uploadVideo'>
                     <p>upload video button here</p>
                     <input type = 'text' value={video} onChange={(e) => setVideo(e.target.value)}></input>
-                    <button onClick={handleAddVideo}>Upload Video</button>
+                    <Button className='btn btn-info' onClick={handleAddVideo}>Upload Video</Button>
                 </div>
                 <div className='uploadedVideos'>
                     <p>uploaded videos shown here</p>
-                    {listOfVideos.map((video, i) => <p key={i}>{video}</p>)}
+                    <div className='videoDisplay'>
+                    {listOfVideos.map((video, i) => <YoutubeEmbed key={i} embedId={video} />)}
+                    </div>
+                    <div>
+                      
+                    </div>
                 </div>
             </div>
         </div>

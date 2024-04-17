@@ -1,0 +1,20 @@
+.video-responsive {
+    /* overflow: hidden; */
+    padding: 20px;
+    position: relative;
+    width: 30%;
+    height: 20%;
+  }
+  
+.video-responsive iframe {
+    /* position: absolute; */
+    height: 100%;
+    width: 100%;
+}
+
+.videoDisplay {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    height: 100%;
+}
