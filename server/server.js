@@ -14,6 +14,9 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
+/* Handle request for static files */
+app.use(express.static(path.resolve(__dirname, '../dist')));
+
 // root (homepage)
 app.get('/', cookieController.setCookie, (req, res) => {
   return res.status(200).sendFile(path.join(__dirname, '../index.html'));

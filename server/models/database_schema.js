@@ -24,16 +24,12 @@ const userSchema = new Schema({
   password: { type: String, required: true},
 });
 
-userSchema.pre('save', async (next) => {
-  console.log(this);
-  const user = this;
+userSchema.pre('save', async function(next) {
   try {
     // Create salt using work factor
     const salt = await bcrypt.genSalt(WORK_FACTOR);
     // Save password as hashed version
-    console.log(salt)
-    user.password = await bcrypt.hash(user.password, salt);
-    console.log(user.password)
+    this.password = await bcrypt.hash(this.password, salt);
     return next();
   }
   catch (err) {
