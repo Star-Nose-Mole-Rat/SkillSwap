@@ -31,10 +31,11 @@ const userProfile = () => {
         <div>
           <NavBar />
           <Row className='justify-content-center'>
-            <div>
+            <div className='text-center'>
               <h2>User Profile</h2>
             </div>
           </Row>
+          <div className='d-flex justify-content-center align-items-center'>
             <div className='profile-picture'>
                 {/* <img href='#' /> */}
             </div>
@@ -51,7 +52,7 @@ const userProfile = () => {
                 
                 <div className='uploadVideo'>
                     <p>upload video button here</p>
-                    <input type = 'text' value={video} onChange={(e) => setVideo(e.target.value)}></input>
+                    <input type = 'text' value={video} onChange={(e) => setVideo(e.target.value)} style={{ marginRight: '10px' }}></input>
                     <Button className='btn btn-info' onClick={handleAddVideo}>Upload Video</Button>
                 </div>
                 <div className='uploadedVideos'>
@@ -59,11 +60,9 @@ const userProfile = () => {
                     <div className='videoDisplay'>
                     {listOfVideos.map((video, i) => <YoutubeEmbed key={i} embedId={video} />)}
                     </div>
-                    <div>
-                      
-                    </div>
                 </div>
             </div>
+          </div>
         </div>
     )
 }

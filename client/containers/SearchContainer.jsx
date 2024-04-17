@@ -29,7 +29,7 @@ const SearchContainer = () => {
     return (
         <div>
             <NavBar />
-            <div className='d-flex justify-content-center'>
+            <div className='d-flex justify-content-center' style={{ marginTop: '10px' }}>
               <input type='text' id='input_search' onChange={handleSearchChange} placeholder='Search...' style={{ marginRight: '10px' }}/>
                 <Button onClick={handleSearch} className='btn btn-info'>Search</Button>
             </div>
