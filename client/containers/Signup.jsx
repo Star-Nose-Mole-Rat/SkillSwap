@@ -25,6 +25,7 @@ const Signup = () => {
           .then(data => {
             console.log(data);
             dispatch(addUser(username));
+            dispatch(addDisplayName(displayName));
             navigate('/search');
             
           })
