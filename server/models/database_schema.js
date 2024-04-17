@@ -35,9 +35,10 @@ const userSchema = new Schema({
 const User = mongoose.model('user', userSchema);
 
 const skillsVideoSchema = new Schema({
-  subject: { type: Number, required: true },
-  title: { type: Number, required: true },
-  url: { type: Number, required: true },
+  subject: { type: String, required: true },
+  title: { type: String, required: true },
+  url: { type: String, required: true },
+  keywords: [{ type: String }],
 });
 
 const SkillVideo = mongoose.model('skillVideo', skillsVideoSchema);

@@ -17,6 +17,8 @@
     "dotenv": "^16.4.5",
     "gridfs-stream": "^1.1.1",
     "js-cookie": "^3.0.5",
+    "localforage": "^1.10.0",
+    "match-sorter": "^6.3.4",
     "method-override": "^3.0.0",
     "mongodb": "^6.5.0",
     "mongoose": "^8.3.0",
@@ -25,6 +27,7 @@
     "react-dom": "^18.2.0",
     "react-redux": "^8.0.5",
     "redux": "^4.0.5",
+    "sort-by": "^1.2.0",
     "style-loader": "^3.3.4"
   },
   "devDependencies": {

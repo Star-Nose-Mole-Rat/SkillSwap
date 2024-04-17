@@ -5,21 +5,14 @@ const PORT = 8080;
 
 const userController = require('./controllers/userController.js');
 
-// REFERENCE: https://www.npmjs.com/package/multer-gridfs-storage
-// const multer = require('multer');
-// const { GridFsStorage } = require('multer-gridfs-storage');
-// const methodOverride = require('method-override');
-// const crypto = require('crypto');
-require('dotenv').config();
-const uri =
-  'mongodb+srv://dbUser:50MAnty72bFlBdsh@skillswap.irepd3l.mongodb.net/?retryWrites=true&w=majority&appName=SkillSwap';
-console.log('URI====>', uri);
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-app.get('/', (req, res) => {
-  return res.status(200).sendFile(path.join(__dirname, '../index.html'));
-});
+app.use('/', express.static(path.join(__dirname, '../dist')));
+// changed from index.html to ../dist
+// app.get('/', (req, res) => {
+//   return res.status(200).sendFile(path.join(__dirname, '../dist'));
+// });
 
 // app.get("/signup", (req, res) => {
 //   return res.status(200).redirect("/signup");
@@ -41,8 +34,17 @@ app.get('/search', (req, res) => {
 });
 
 //NOTE: catch all route handler for any request to an unknown route
-app.use('*', (req, res) => {
-  this.response.sendStatus(404);
+app.use((req, res) => {
+  return res
+    .status(200)
+    .sendFile(path.join(__dirname, '../dist/index.html'), (err) => {
+      if (err) {
+        console.log(err);
+        return res
+          .status(500)
+          .send('An error occurred (from catch all route handler)');
+      }
+    });
 });
 
 // global error handler

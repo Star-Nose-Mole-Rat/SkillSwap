@@ -1,49 +1,79 @@
-const path = require('path');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
+// Generated using webpack-cli https://github.com/webpack/webpack-cli
 
-module.exports = {
-  mode: process.env.NODE_ENV,
-  entry: path.join(__dirname, 'client', 'index.js'),
+const path = require("path");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+const WorkboxWebpackPlugin = require("workbox-webpack-plugin");
+
+const isProduction = process.env.NODE_ENV == "production";
+
+const stylesHandler = "style-loader";
+
+const config = {
+  entry: "./src/client/index.tsx",
   output: {
-    path: path.resolve(__dirname, 'dist'),
-    clean: true,
+    path: path.resolve(__dirname, "dist"),
   },
+  devServer: {
+    open: true,
+    host: "localhost",
+  },
+  plugins: [
+    new HtmlWebpackPlugin({
+      template: "index.html",
+    }),
+
+    // Add your plugins here
+    // Learn more about plugins from https://webpack.js.org/configuration/plugins/
+  ],
   module: {
     rules: [
       {
-        test: /\.css/,
-        use: ['style-loader', 'css-loader'],
+        test: /\.(ts|tsx)$/i,
+        loader: "babel-loader",
+        exclude: ["/node_modules/"],
       },
       {
-        test: /\.js/,
-        exclude: /node_modules/,
-        use: {
-          loader: 'babel-loader',
-          options: {
-            presets: ['@babel/preset-env', '@babel/preset-react'],
-          },
-        },
+        test: /\.css$/i,
+        use: [stylesHandler, "css-loader"],
       },
+      {
+        test: /\.s[ac]ss$/i,
+        use: [stylesHandler, "css-loader", "sass-loader"],
+      },
+      {
+        test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif)$/i,
+        type: "asset",
+      },
+
+      // Add your rules for custom modules here
+      // Learn more about loaders from https://webpack.js.org/loaders/
     ],
+  },
+  resolve: {
+    extensions: [".tsx", ".ts", ".jsx", ".js", "..."],
   },
   devServer: {
     historyApiFallback: true,
+    hot: true,
     static: {
-      directory: path.resolve(__dirname, 'dist'),
-      publicPath: '/dist',
+      directory: path.join(__dirname, "dist"),
     },
     proxy: [
       {
-        context: ['/'],
-        target: 'http://localhost:8080',
+        context: ["/albumArt", "/music", "/upload"],
+        target: "http://localhost:3000",
       },
     ],
   },
+};
 
-  plugins: [
-    new HtmlWebpackPlugin({
-      template: 'index.html',
-    }),
-  ],
-  
+module.exports = () => {
+  if (isProduction) {
+    config.mode = "production";
+
+    config.plugins.push(new WorkboxWebpackPlugin.GenerateSW());
+  } else {
+    config.mode = "development";
+  }
+  return config;
 };
