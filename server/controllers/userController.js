@@ -37,13 +37,12 @@ userController.addUser = async (req, res, next) => {
   // grabs the user info off req
   const { username, password } = req.body;
   // adds it to data base and calls next
-  console.log("destructored code ===>", username, password);
   try {
-    await Login.create({
+    const newUser = await Login.create({
       username,
       password,
     });
-    console.log("made user");
+    console.log(`user ${newUser} added to database`);
     return next();
   } catch (err) {
     const error = {

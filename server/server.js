@@ -1,7 +1,7 @@
 const express = require("express");
 const app = express();
 const path = require("path");
-const PORT = 3000;
+const PORT = 8080;
 
 const userController = require("./controllers/userController.js");
 const profileController = require("./controllers/profileController.js");
@@ -26,23 +26,20 @@ app.post("/signup", userController.addUser, (req, res) => {
 // app.use('/userprofile', profileRouter);
 // app.use('/search', searchRouter);
 // respond to a post request to /addSkill
-app.post("/addSkill", profileController.addSkill);
+// these are the pofile requests:
+app.post("/addSkill:user", profileController.addSkill);
+app.get("/profile:user", profileController.profile);
 
 //test search query
-app.get('/search', (req, res) => {
-  console.log('query', req.query.searchword);
-  return res.status(200).send(['banana', 'apple', 'pineapple']);
-})
-
+app.get("/search", (req, res) => {
+  console.log("query", req.query.searchword);
+  return res.status(200).send(["banana", "apple", "pineapple"]);
+});
 
 //NOTE: catch all route handler for any request to an unknown route
 app.use((req, res) => {
   this.response.sendStatus(404);
 });
-
-
-
-
 
 // global error handler
 app.use((err, req, res, next) => {
@@ -63,9 +60,3 @@ app.listen(PORT, () => {
 });
 
 // module.exports = app;
-
-
-
-
-	
-

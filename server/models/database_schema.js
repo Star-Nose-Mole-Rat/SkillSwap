@@ -5,7 +5,7 @@ const uri = process.env.URI;
 
 mongoose
   .connect(uri, {
-    dbName: "test",
+    dbName: "skillswap",
   })
   .then(() => {
     console.log("connected to mongodb");
@@ -28,7 +28,10 @@ const userSchema = new Schema({
   displayName: { type: String, required: true },
   // this links this user to the log in credentials by the id
   user: { type: mongoose.Schema.Types.ObjectId, ref: "Login" },
-  skillVideos: [{ type: mongoose.Schema.Types.ObjectId, ref: "SkillVideo" }],
+  skillVideos: {
+    type: { type: mongoose.Schema.Types.ObjectId, ref: "SkillVideo" },
+    default: [],
+  },
   points: { type: Number },
   savedSkills: { type: Array },
 });
