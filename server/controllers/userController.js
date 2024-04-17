@@ -11,7 +11,9 @@ userController.verifyUser = async (req, res, next) => {
   try {
     const user = await User.findOne({ username: username });
     // authenticate the password
-    if (User.comparePasswords(password, user.password)) {
+    const match = await User.verifyPassword(password, user.password);
+    if (match) {
+      console.log('User verified!');
       return next();
     }
     else {
@@ -22,6 +24,7 @@ userController.verifyUser = async (req, res, next) => {
   }
   catch (err) {
     console.log('No match found for username!');
+    console.log(err);
     // redirect to signup page
     return res.redirect('/signup');
   };
