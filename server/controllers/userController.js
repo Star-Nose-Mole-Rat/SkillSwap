@@ -30,6 +30,7 @@ userController.addUser = async (req, res, next) => {
   // grab the user information from the request body
   const { username, password, displayName } = req.body;
   // add new user to database and create user profile
+  console.log("in controller");
   try {
     const newUser = await User.create({
       username,

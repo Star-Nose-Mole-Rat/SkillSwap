@@ -64,6 +64,7 @@ const profileSchema = new Schema({
       ref: "video",
     },
   ],
+
   points: { type: Number },
   savedSkills: { type: Array },
 });

@@ -5,6 +5,7 @@ const cookieParser = require("cookie-parser");
 
 const userController = require("./controllers/userController.js");
 const cookieController = require("./controllers/cookieController.js");
+const profileController = require("./controllers/profileController.js");
 
 const PORT = 8080;
 
@@ -53,8 +54,8 @@ app.post(
 // app.use('/search', searchRouter);
 // respond to a post request to /addSkill
 // these are the pofile requests:
-app.post("/addSkill:user", profileController.addSkill);
-app.get("/profile:user", profileController.profile);
+app.post("/addSkill/:user", profileController.addSkill);
+app.get("/profile/:user", profileController.profile);
 
 //test search query
 app.get("/search", (req, res) => {

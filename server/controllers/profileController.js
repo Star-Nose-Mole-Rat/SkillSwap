@@ -2,7 +2,7 @@
 // respond to a get request from profile that sends the profile back to the client
 
 // import the schema
-const { SkillVideo, User } = require("../models/database_schema.js");
+const { Video, Profile } = require("../models/database_schema.js");
 
 // add the controller object to export
 const profileController = {};
@@ -10,10 +10,11 @@ const profileController = {};
 profileController.profile = async (req, res, next) => {
   // from what ever is on params, serve the coorisponding user profile info
   const { user } = req.params;
+  console.log("user ====> ", user);
   try {
-    const profile = await User.findOne({ user });
-    console.log(profile);
-    res.staus(200).json(profile);
+    const profile = await Profile.findOne({ displayName: user });
+    console.log("profile ===>", profile);
+    res.status(200).json(profile);
     if (!profile) throw new Error("user not found");
   } catch (err) {
     const error = {
@@ -33,7 +34,7 @@ profileController.addSkill = async (req, res, next) => {
   const { user } = req.params;
   // create the video and return the id
   try {
-    const video = await SkillVideo.create({
+    const video = await Video.create({
       subject,
       title,
       url,
@@ -42,11 +43,10 @@ profileController.addSkill = async (req, res, next) => {
     const id = video._id.toString();
     // use find one and update user profile to add this video to the array
     // respond to client
-    const update = await User.findOneAndUpdate(
-      { users: user },
-      { $push: { skillVido: id } }
+    const update = await Profile.findOneAndUpdate(
+      { displayName: user },
+      { $push: { videos: id } }
     );
-    console.log(update);
     if (!update) throw new Error("unable to add video to users profile");
     // check for update and if not throw err
     return res.sendStatus(200);
