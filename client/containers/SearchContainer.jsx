@@ -34,6 +34,7 @@ const SearchContainer = () => {
                 <Button onClick={handleSearch} className='btn btn-info'>Search</Button>
             </div>
             <div className='searchResults'>
+              {/* recent added videos by users should be displayed */}
               {videos.map(video => <p>{video}</p>)}
             </div>
         </div>

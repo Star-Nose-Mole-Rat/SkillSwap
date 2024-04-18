@@ -24,6 +24,8 @@ const MainContainer = () => {
           .then(data => {
             if (data.ok) {
             dispatch(addUser(username));
+            // need to fetch user info(displayname, points, videos) based on the username
+
             // dispatch(addVideos(data.videos));
             // dispatch(addPoints(data.points));
             navigate('/search');

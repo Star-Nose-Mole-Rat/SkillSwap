@@ -19,6 +19,7 @@ const userProfile = () => {
     const handleAddVideo = e => {
         e.preventDefault();
         
+        // change to POST request with the body of username, uri, keywords
         fetch(`/addvideo?username=${username}&videouri=${video}`)
         .then(data => {
             if (data.ok) {
