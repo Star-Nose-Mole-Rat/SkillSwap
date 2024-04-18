@@ -1,5 +1,4 @@
-// in this file I need to make a controller that will add a skill using the SkillVideo schema
-// respond to a get request from profile that sends the profile back to the client
+// in this file we have the middle ware that serve and update user profile. The middle ware the initalized a user profile is in userController
 
 // import the schema
 const { Video, Profile } = require("../models/database_schema.js");
@@ -8,6 +7,7 @@ const profileClass = require("../models/profileClass.js");
 // add the controller object to export
 const profileController = {};
 
+// responds to a request with the infromation on the user profile
 profileController.profile = async (req, res, next) => {
   // from what ever is on params, serve the coorisponding user profile info
   const { user } = req.params;
@@ -48,10 +48,11 @@ profileController.profile = async (req, res, next) => {
     return next(error);
   }
 };
-// add middleware, that will add a skill to a user profile and also respond to the request
+// Adds a skill to a user profile, increases user points, and also respond to the request with 200
 profileController.addSkill = async (req, res, next) => {
   // I will expect the body to have an object on it that looks like this: { url, title, subject, user }
   const { url, title, subject } = req.body;
+  // get the user display name off params
   const { user } = req.params;
   // create the video and return the id
   console.log("user ====> ", user);
@@ -80,6 +81,35 @@ profileController.addSkill = async (req, res, next) => {
       status: 500,
       message: {
         err: "Express error handler caught error when trying to create add a video profileConrtoller",
+      },
+    };
+    return next(error);
+  }
+};
+
+// Checkes if user has enough points and decrements them if they have enough. responds with a boolean, the un-updated user profile, and 200
+profileController.usePoints = async (req, res, next) => {
+  const { _id } = req.body;
+  let sufficiantPoints;
+  console.log("user before fetch ====>", _id);
+  try {
+    const profile = await Profile.findOneAndUpdate(
+      { _id: _id },
+      {
+        $inc: {
+          points: { $cond: { if: { $gt: ["$points", 0] }, then: -1, else: 0 } },
+        },
+      }
+    );
+    console.log("profile after fetch ===>", profile);
+    profile.points > 0 ? (sufficiantPoints = true) : (sufficiantPoints = false);
+    res.status(200).json({ sufficiantPoints, profile });
+  } catch (err) {
+    const error = {
+      log: `Express error handler caught error when trying to update user points in profileConrtoller ${err}`,
+      status: 500,
+      message: {
+        err: "Express error handler caught error when trying to update user points in profileConrtoller",
       },
     };
     return next(error);

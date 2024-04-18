@@ -49,49 +49,42 @@ app.post(
     return res.sendStatus(200);
   }
 );
-// from here will can do a port request or a
-// app.use('/userprofile', profileRouter);
-// app.use('/search', searchRouter);
-// respond to a post request to /addSkill
+
 // these are the pofile requests:
+// adds a video skill to the user profile
 app.post("/addSkill/:user", profileController.addSkill);
+// serves the user profile with video links
 app.get("/profile/:user", profileController.profile);
+// checks to see if user has enough points and if so, decrements the points
+app.patch("/usePoints", profileController.usePoints);
 
-
-
-app.get('/profile', (req, res) => {
+app.get("/profile", (req, res) => {
   return res.status(200);
 });
 
-// frontend login test 
-// app.post('/login', (req, res) => {
-//   return res.status(200).send({ points: 100, videos: ['abc', 'banana', 'water']});
-// })
-
-
 // frontend test search query
-app.get('/searchKeyword', (req, res) => {
-  console.log('query', req.query.searchword);
-  return res.status(200).send(['banana', 'apple', 'pineapple']);
+app.get("/searchKeyword", (req, res) => {
+  console.log("query", req.query.searchword);
+  return res.status(200).send(["banana", "apple", "pineapple"]);
 });
 
-
-
 // frontend test for addvideo
-app.get('/addvideo', (req, res) => {
-  console.log('query.username', req.query.username)
-  console.log('query.videouri', req.query.videouri);
-  return res.status(200).send('addvideo OK');
-})
+app.get("/addvideo", (req, res) => {
+  console.log("query.username", req.query.username);
+  console.log("query.videouri", req.query.videouri);
+  return res.status(200).send("addvideo OK");
+});
 
 //NOTE: catch all route handler for any request to an unknown route
 app.use((req, res) => {
-  return res.status(200).sendFile(path.join(__dirname, '../dist/index.html'), (err) => {
-    if (err) {
-      console.log(err);
-      return res.status(500).send('An error occured');
-    }
-  });
+  return res
+    .status(200)
+    .sendFile(path.join(__dirname, "../dist/index.html"), (err) => {
+      if (err) {
+        console.log(err);
+        return res.status(500).send("An error occured");
+      }
+    });
 });
 
 // global error handler
