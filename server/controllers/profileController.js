@@ -91,19 +91,26 @@ profileController.addSkill = async (req, res, next) => {
 profileController.usePoints = async (req, res, next) => {
   const { _id } = req.body;
   let sufficiantPoints;
+  let updateProfile;
   console.log("user before fetch ====>", _id);
   try {
-    const profile = await Profile.findOneAndUpdate(
-      { _id: _id },
-      {
-        $inc: {
-          points: { $cond: { if: { $gt: ["$points", 0] }, then: -1, else: 0 } },
-        },
-      }
-    );
+    const profile = await Profile.findById(_id);
+    console.log(profile.points > 0);
+    if (!profile) throw new Error(`no profile accossiated with id ${_id}`);
+    if (profile.points > 0) {
+      updateProfile = await Profile.findOneAndUpdate(
+        { _id: _id },
+        { $inc: { points: -1 } },
+        { new: true }
+      );
+      sufficiantPoints = true;
+      console.log(updateProfile);
+    } else {
+      sufficiantPoints = false;
+    }
     console.log("profile after fetch ===>", profile);
     profile.points > 0 ? (sufficiantPoints = true) : (sufficiantPoints = false);
-    res.status(200).json({ sufficiantPoints, profile });
+    res.status(200).json({ sufficiantPoints, updateProfile });
   } catch (err) {
     const error = {
       log: `Express error handler caught error when trying to update user points in profileConrtoller ${err}`,

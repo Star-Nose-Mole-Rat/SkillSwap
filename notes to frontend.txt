@@ -29,4 +29,4 @@ To update a user's points to watch a video:
 A PATCH request to
 /usePoints
 body: user (note: I am expecting the whole object, but only need the id. Let me know what you end up using)
-Response => {sufficianPoints : <boolean>} {profile} (note: the profile will have the un-updated points on it)
+Response => {sufficianPoints : <boolean>} {profile: <updated profile>}
