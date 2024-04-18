@@ -1,7 +1,6 @@
 
 To get the profile information on a user:
-GET request to:
-localhost:8080/profile/lelo
+GET request to /profile/<param>
 (lelo is a param)
 
 Example Response for lelo =>
@@ -18,15 +17,13 @@ Example Response for lelo =>
 }
 
 To save a video:
-POST request to
-localhost:8080/savedSkills/lelo
-body: { video url, title, subject }
+POST request to /profile/
+body: { video url, title, subject, displayName }
 (note: lelo is a param)
 Reponse => { url, title, subject }
 
 
 To update a user's points to watch a video:
-A PATCH request to
-/usePoints
+A PATCH request to /profile
 body: user (note: I am expecting the whole object, but only need the id. Let me know what you end up using)
 Response => {sufficianPoints : <boolean>} {profile: <updated profile>}

@@ -52,11 +52,11 @@ app.post(
 
 // these are the pofile requests:
 // adds a video skill to the user profile
-app.post("/addSkill/:user", profileController.addSkill);
+app.post("/profile", profileController.addSkill);
 // serves the user profile with video links
 app.get("/profile/:user", profileController.profile);
 // checks to see if user has enough points and if so, decrements the points
-app.patch("/usePoints", profileController.usePoints);
+app.patch("/profile", profileController.usePoints);
 
 app.get("/profile", (req, res) => {
   return res.status(200);

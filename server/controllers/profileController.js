@@ -51,11 +51,9 @@ profileController.profile = async (req, res, next) => {
 // Adds a skill to a user profile, increases user points, and also respond to the request with 200
 profileController.addSkill = async (req, res, next) => {
   // I will expect the body to have an object on it that looks like this: { url, title, subject, user }
-  const { url, title, subject } = req.body;
-  // get the user display name off params
-  const { user } = req.params;
+  const { url, title, subject, displayName } = req.body;
   // create the video and return the id
-  console.log("user ====> ", user);
+  console.log("user ====> ", displayName);
   try {
     const video = await Video.create({
       subject,
@@ -67,7 +65,7 @@ profileController.addSkill = async (req, res, next) => {
     // use find one and update user profile to add this video to the array
     // respond to client
     const update = await Profile.findOneAndUpdate(
-      { displayName: user },
+      { displayName },
       { $push: { videos: id }, $inc: { points: 10 } },
       { new: true }
     );
