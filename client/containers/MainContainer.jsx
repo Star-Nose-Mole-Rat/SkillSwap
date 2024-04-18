@@ -34,7 +34,7 @@ const MainContainer = () => {
       dispatch(addPoints(data.points));
       navigate('/search');
     } else {
-      alert('username or password not matched!');
+      alert('Invalid Username or Password!');
       console.log('Invalid username or password');
       navigate('/');
       window.location.reload();

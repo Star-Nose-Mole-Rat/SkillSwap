@@ -21,7 +21,7 @@ userController.verifyUser = async (req, res, next) => {
     } else {
       console.log("Invalid credentials!");
       // redirect to homepage to re-login
-      return res.status(404).json({ message: 'invalid credential!'});
+      return res.status(401).json({ message: 'invalid credential!'});
     }
   } catch (err) {
     console.log("No match found for username!");
