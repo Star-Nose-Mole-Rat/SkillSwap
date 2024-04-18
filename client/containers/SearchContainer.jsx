@@ -1,20 +1,13 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useSelector, useDispatch, useEffect } from 'react-redux';
-import { addVideo } from '../userSlice';
+import { useSelector } from 'react-redux';
+import { Button } from 'react-bootstrap';
+import NavBar from '../components/Nav.jsx';
 
 const SearchContainer = () => {
   const [search, setSearch] = useState('');
-  const navigate = useNavigate();
 
-  const dispatch = useDispatch();
   const videos = useSelector(state => state.users.videos);
 
-  // const handleAddVideo = (e) => {
-  //   e.preventDefault();
-  //   // dispatch(addVideo('Three phase power'))
-  //   console.log(e.target.id);
-  // }
 
   const handleSearchChange = (e) => {
     e.preventDefault();
@@ -23,39 +16,25 @@ const SearchContainer = () => {
 
   const handleSearch = () => {
     console.log('searching for: ', search);
-    fetch('/search?searchword=' + search, {
+    fetch('/searchKeyword?searchword=' + search, {
         headers: {
           'Content-Type': 'application/json',
         }
       })
       .then(data => data.json())
       .then(data => console.log(data))
-      .catch(err => { console.log('invalid fetch request', err)});
-  }
-
-  const redirectToProfile = (e) => {
-    e.preventDefault();
-    navigate('/profile');
-  }
-
-  const handleLogout = (e) => {
-    e.preventDefault();
-    navigate('/');
+      .catch(err => { console.log('invalid search request', err)});
   }
 
     return (
         <div>
-            <nav>
-                <button id='nav_profile' onClick={redirectToProfile}>Profile</button>
-                <button id='nav_logout' onClick={handleLogout}>Logout</button>
-            </nav>
-            <div>
-                
-                    <input type='text' id='input_search' onChange={handleSearchChange} placeholder='Search...' />
-                    <button onClick={handleSearch}>Search</button>
-                
+            <NavBar />
+            <div className='d-flex justify-content-center' style={{ marginTop: '10px' }}>
+              <input type='text' id='input_search' onChange={handleSearchChange} placeholder='Search...' style={{ marginRight: '10px' }}/>
+                <Button onClick={handleSearch} className='btn btn-info'>Search</Button>
             </div>
             <div className='searchResults'>
+              {/* recent added videos by users should be displayed */}
               {videos.map(video => <p>{video}</p>)}
             </div>
         </div>

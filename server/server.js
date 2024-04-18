@@ -7,7 +7,7 @@ const userController = require("./controllers/userController.js");
 const cookieController = require("./controllers/cookieController.js");
 const profileController = require("./controllers/profileController.js");
 
-const PORT = 8080;
+const PORT = 3000;
 
 /* Automatically parse urlencoded body content and form data from
 incoming requests and place it in req.body */
@@ -57,15 +57,41 @@ app.post(
 app.post("/addSkill/:user", profileController.addSkill);
 app.get("/profile/:user", profileController.profile);
 
-//test search query
-app.get("/search", (req, res) => {
-  console.log("query", req.query.searchword);
-  return res.status(200).send(["banana", "apple", "pineapple"]);
+
+
+app.get('/profile', (req, res) => {
+  return res.status(200);
 });
+
+// frontend login test 
+// app.post('/login', (req, res) => {
+//   return res.status(200).send({ points: 100, videos: ['abc', 'banana', 'water']});
+// })
+
+
+// frontend test search query
+app.get('/searchKeyword', (req, res) => {
+  console.log('query', req.query.searchword);
+  return res.status(200).send(['banana', 'apple', 'pineapple']);
+});
+
+
+
+// frontend test for addvideo
+app.get('/addvideo', (req, res) => {
+  console.log('query.username', req.query.username)
+  console.log('query.videouri', req.query.videouri);
+  return res.status(200).send('addvideo OK');
+})
 
 //NOTE: catch all route handler for any request to an unknown route
 app.use((req, res) => {
-  this.response.sendStatus(404);
+  return res.status(200).sendFile(path.join(__dirname, '../dist/index.html'), (err) => {
+    if (err) {
+      console.log(err);
+      return res.status(500).send('An error occured');
+    }
+  });
 });
 
 // global error handler
