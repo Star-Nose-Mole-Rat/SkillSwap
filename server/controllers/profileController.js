@@ -16,6 +16,7 @@ profileController.profile = async (req, res, next) => {
     console.log("profile ===>", profile);
     res.status(200).json(profile);
     if (!profile) throw new Error("user not found");
+    
   } catch (err) {
     const error = {
       log: `Express error handler caught error when trying to serve the profile in profileConrtoller ${err}`,
@@ -30,8 +31,8 @@ profileController.profile = async (req, res, next) => {
 // add middleware, that will add a skill to a user profile and also respond to the request
 profileController.addSkill = async (req, res, next) => {
   // I will expect the body to have an object on it that looks like this: { url, title, subject, user }
-  const { url, title, subject } = req.body;
-  const { user } = req.params;
+  const { user, url, title, subject } = req.body;
+  //const { user } = req.params;
   // create the video and return the id
   try {
     const video = await Video.create({

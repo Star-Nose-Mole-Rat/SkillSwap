@@ -22,7 +22,9 @@ const MainContainer = () => {
             body: JSON.stringify({ username, password })
           })
           .then(data => {
+            console.log('data: ', data)
             if (data.ok) {
+              console.log('profile data, displayName: ', data.json().displayName);
             dispatch(addUser(username));
             // need to fetch user info(displayname, points, videos) based on the username
 
