@@ -1,42 +1,43 @@
 // this file will hold and export the schema for our database
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 // Needed to access process.env
-require('dotenv').config();
+require("dotenv").config();
 
 const uri = process.env.URI;
 
-mongoose.connect(uri, {
-  // sets the name of the db
-  dbName: 'skillswap',
-})
-  .then(() => console.log('Connected to mongoDB.'))
+mongoose
+  .connect(uri, {
+    // sets the name of the db
+    dbName: "skillswap",
+  })
+  .then(() => console.log("Connected to mongoDB."))
   .catch((err) => console.log(`Error connecting to mongoDB: ${err}`));
 
 const Schema = mongoose.Schema;
 
 // required for encryption
 const WORK_FACTOR = 10;
-const bcrypt = require('bcrypt');
+const bcrypt = require("bcrypt");
 
 // sets a schema for the 'user' collection
 const userSchema = new Schema({
-  username: { type: String, required: true, unique: true},
-  password: { type: String, required: true},
+  username: { type: String, required: true, unique: true },
+  password: { type: String, required: true },
 });
 
-userSchema.pre('save', async function(next) {
+userSchema.pre("save", async function (next) {
   try {
     // Create salt using work factor
     const salt = await bcrypt.genSalt(WORK_FACTOR);
     // Save password as hashed version
     this.password = await bcrypt.hash(this.password, salt);
     return next();
-  }
-  catch (err) {
-    console.log('Error in hashing password!');
-    return next({err});
+  } catch (err) {
+    console.log("Error in hashing password!");
+    return next({ err });
   }
 });
+
 
 userSchema.statics.verifyPassword = async function(password, hashedPassword) {
   try {
@@ -52,39 +53,42 @@ userSchema.statics.verifyPassword = async function(password, hashedPassword) {
 }
 
 // creates a model for the 'user' collection
-const User = mongoose.model('user', userSchema);
+const User = mongoose.model("user", userSchema);
 
 // sets a schema for the 'profile' collection
 const profileSchema = new Schema({
   displayName: { type: String, required: true },
-  username: { 
-    type: Schema.Types.ObjectId, 
-    ref: 'user',
+  username: {
+    type: Schema.Types.ObjectId,
+    ref: "user",
     required: true,
   },
-  videos: [{ 
-    type: Schema.Types.ObjectId,
-    ref: 'video'
-  }],
+  videos: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "video",
+    },
+  ],
+
   points: { type: Number },
   savedSkills: { type: Array },
 });
 
-const Profile = mongoose.model('profile', profileSchema);
+const Profile = mongoose.model("profile", profileSchema);
 
 // sets a schema for the 'video' collection
 const videoSchema = new Schema({
   subject: { type: String, required: true },
   title: { type: String, required: true },
   url: { type: String, required: true },
-  keywords: [{type: String}]
+  keywords: [{ type: String }],
 });
 
-const Video = mongoose.model('video', videoSchema);
+const Video = mongoose.model("video", videoSchema);
 
 // exports all the models
 module.exports = {
   User,
   Profile,
-  Video
+  Video,
 };

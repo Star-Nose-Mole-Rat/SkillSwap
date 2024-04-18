@@ -1,0 +1,24 @@
+this is an example of what will be returned when a GET request is made to:
+localhost:8080/profile/lelo
+(lelo is a param)
+{
+    "_id": "661f3241d1a87f3f7b938539",
+    "displayName": "lelo",
+    "username": "661f3241d1a87f3f7b938537",
+    "videos": [
+        "661f350c120798b2debfddce"
+    ],
+    "points": 0,
+    "savedSkills": [],
+    "__v": 0
+}
+
+=====> im thinking that we probably need to work on getting you the url for the videos instead of the id number....
+
+if you want to save a video this is what the backend is lookign for
+a POST request to
+localhost:8080/savedSkills/lelo
+
+(lelo can be replaced with any user name)
+
+with a body with these properties: { url, title, subject }

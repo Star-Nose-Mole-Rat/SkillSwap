@@ -1,26 +1,26 @@
-const path = require('path');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
+const path = require("path");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
 
 module.exports = {
   mode: process.env.NODE_ENV,
-  entry: path.join(__dirname, 'client', 'index.js'),
+  entry: path.join(__dirname, "client", "index.js"),
   output: {
-    path: path.resolve(__dirname, 'dist'),
+    path: path.resolve(__dirname, "dist"),
     clean: true,
   },
   module: {
     rules: [
       {
         test: /\.css/,
-        use: ['style-loader', 'css-loader'],
+        use: ["style-loader", "css-loader"],
       },
       {
         test: /\.js/,
         exclude: /node_modules/,
         use: {
-          loader: 'babel-loader',
+          loader: "babel-loader",
           options: {
-            presets: ['@babel/preset-env', '@babel/preset-react'],
+            presets: ["@babel/preset-env", "@babel/preset-react"],
           },
         },
       },
@@ -28,9 +28,10 @@ module.exports = {
   },
   devServer: {
     historyApiFallback: true,
+    historyApiFallback: true,
     static: {
-      directory: path.resolve(__dirname, 'dist'),
-      publicPath: '/dist',
+      directory: path.resolve(__dirname, "dist"),
+      publicPath: "/dist",
     },
     proxy: [
       {

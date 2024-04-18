@@ -1,10 +1,11 @@
-const express = require('express');
+const express = require("express");
 const app = express();
-const path = require('path');
-const cookieParser = require('cookie-parser');
+const path = require("path");
+const cookieParser = require("cookie-parser");
 
-const userController = require('./controllers/userController.js');
-const cookieController = require('./controllers/cookieController.js');
+const userController = require("./controllers/userController.js");
+const cookieController = require("./controllers/cookieController.js");
+const profileController = require("./controllers/profileController.js");
 
 const PORT = 3000;
 
@@ -15,32 +16,47 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 /* Handle request for static files */
-app.use(express.static(path.resolve(__dirname, '../dist')));
+app.use(express.static(path.resolve(__dirname, "../dist")));
 
 // root (homepage)
-app.get('/', cookieController.setCookie, (req, res) => {
-  return res.status(200).sendFile(path.join(__dirname, '../index.html'));
+app.get("/", cookieController.setCookie, (req, res) => {
+  return res.status(200).sendFile(path.join(__dirname, "../index.html"));
 });
 
 // login
-app.post('/login', userController.verifyUser, cookieController.setSSIDCookie, (req, res) => {
-  // On successful login, redirects to search page
-  return res.status(200).redirect('/search');
-});
+app.post(
+  "/login",
+  userController.verifyUser,
+  cookieController.setSSIDCookie,
+  (req, res) => {
+    // On successful login, redirects to search page
+    return res.status(200).redirect("/search");
+  }
+);
 
 // signup
-app.get('/signup', (req, res) => {
+app.get("/signup", (req, res) => {
   // Returns signup page
-  return res.status(200).redirect('/signup');
+  return res.status(200).redirect("/signup");
 });
 
 // when making a post request to sign up on success will respond with 200
-app.post('/signup', userController.addUser, cookieController.setSSIDCookie, (req, res) => {
-  return res.sendStatus(200);
-});
-// from here will can do a port request or a 
+app.post(
+  "/signup",
+  userController.addUser,
+  cookieController.setSSIDCookie,
+  (req, res) => {
+    return res.sendStatus(200);
+  }
+);
+// from here will can do a port request or a
 // app.use('/userprofile', profileRouter);
 // app.use('/search', searchRouter);
+// respond to a post request to /addSkill
+// these are the pofile requests:
+app.post("/addSkill/:user", profileController.addSkill);
+app.get("/profile/:user", profileController.profile);
+
 
 
 app.get('/profile', (req, res) => {
@@ -96,10 +112,4 @@ app.listen(PORT, () => {
   console.log(`server listening on ${PORT}`);
 });
 
-module.exports = app;
-
-
-
-
-	
-
+// module.exports = app;

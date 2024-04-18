@@ -5,15 +5,15 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Button, Form, FormGroup, Row, Col, Container } from 'react-bootstrap';
 
 const Signup = () => {
-    const [password, setPassword] = useState('');
-    const [username, setUsername] = useState('');
-    const [displayName, setDisplayName] = useState('');
+  const [password, setPassword] = useState("");
+  const [username, setUsername] = useState("");
+  const [displayName, setDisplayName] = useState("");
 
-    const navigate = useNavigate();
-    const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
-    const handleRegister= (e) => {
-        e.preventDefault();
+  const handleRegister = (e) => {
+    e.preventDefault();
 
         fetch('/signup', {
             method: 'POST',
@@ -86,7 +86,6 @@ const Signup = () => {
       </Container>
     )
 };
-
 
 export default Signup;
 

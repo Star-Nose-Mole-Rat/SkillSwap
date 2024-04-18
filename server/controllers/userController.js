@@ -1,5 +1,5 @@
 // in this file we will validate the user and route them to the correct page or redirect them to sign in
-const { User, Profile } = require('../models/database_schema.js');
+const { User, Profile } = require("../models/database_schema.js");
 
 const userController = {};
 
@@ -13,21 +13,18 @@ userController.verifyUser = async (req, res, next) => {
     // authenticate the password
     const match = await User.verifyPassword(password, user.password);
     if (match) {
-      console.log('User verified!');
+      console.log("User verified!");
       return next();
-    }
-    else {
-      console.log('Invalid credentials!');
+    } else {
+      console.log("Invalid credentials!");
       // redirect to homepage to re-login
-      return res.redirect('/');
+      return res.redirect("/");
     }
-  }
-  catch (err) {
-    console.log('No match found for username!');
-    console.log(err);
+  } catch (err) {
+    console.log("No match found for username!");
     // redirect to signup page
-    return res.redirect('/signup');
-  };
+    return res.redirect("/signup");
+  }
 };
 
 // Creates a new user
@@ -35,21 +32,23 @@ userController.addUser = async (req, res, next) => {
   // grab the user information from the request body
   const { username, password, displayName } = req.body;
   // add new user to database and create user profile
+  console.log("in controller");
   try {
     const newUser = await User.create({
       username,
       password,
     });
-    console.log('New user saved to db.');
+    console.log("New user saved to db.");
     console.log(newUser);
     // create profile for new user
-    if (!newUser) throw new Error({
-      log: `Express error handler caught error when trying to add a new profile in userController: ${err}`,
-      status: 500,
-      message: {
-        err: 'Express error handler caught error when trying to add a new profile in userController',
-      }
-    })
+    if (!newUser)
+      throw new Error({
+        log: `Express error handler caught error when trying to add a new profile in userController: ${err}`,
+        status: 500,
+        message: {
+          err: "Express error handler caught error when trying to add a new profile in userController",
+        },
+      });
     else {
       try {
         const newProfile = await Profile.create({
@@ -57,32 +56,30 @@ userController.addUser = async (req, res, next) => {
           username: newUser._id,
           points: 0,
         });
-        console.log('New user profile created.');
+        console.log("New user profile created.");
         console.log(newProfile);
         return next();
-      }
-      catch (err) {
+      } catch (err) {
         const error = {
           log: `Express error handler caught error when trying to add a new profile in userController: ${err}`,
           status: 500,
           message: {
-            err: 'Express error handler caught error when trying to add a new profile in userController',
-          }
+            err: "Express error handler caught error when trying to add a new profile in userController",
+          },
         };
         return next(error);
       }
     }
-  }
-  catch (err) {
+  } catch (err) {
     const error = {
-          log: `Express error handler caught error when trying to add a new user in userController: ${err}`,
-          status: 500,
-          message: {
-            err: 'Express error handler caught error when trying to add a new user in userController',
-          }
-        };
-        return next(error);
-  };
+      log: `Express error handler caught error when trying to add a new user in userController: ${err}`,
+      status: 500,
+      message: {
+        err: "Express error handler caught error when trying to add a new user in userController",
+      },
+    };
+    return next(error);
+  }
 };
 
 module.exports = userController;
