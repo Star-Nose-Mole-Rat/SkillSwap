@@ -9,6 +9,7 @@ mongoose
   .connect(uri, {
     // sets the name of the db
     dbName: "skillswap",
+    useNewUrlParser: true,
   })
   .then(() => console.log("Connected to mongoDB."))
   .catch((err) => console.log(`Error connecting to mongoDB: ${err}`));
@@ -38,20 +39,20 @@ userSchema.pre("save", async function (next) {
   }
 });
 
-userSchema.statics.verifyPassword = async (password, hashedPassword) => {
-userSchema.statics.verifyPassword = async function(password, hashedPassword) {
+// userSchema.statics.verifyPassword = async (password, hashedPassword) => {
+userSchema.statics.verifyPassword = async function (password, hashedPassword) {
   try {
     // Check for matching password
     return await bcrypt.compare(password, hashedPassword);
   } catch (err) {
-    console.log('checking for matching passwords')
+    console.log("checking for matching passwords");
     const result = await bcrypt.compare(password, hashedPassword);
     console.log(result);
     return result;
   }
-  catch (err) {
-    console.log(`Error comparing passwords for verification: ${err}`);
-  }
+  // catch (err) {
+  //   console.log(`Error comparing passwords for verification: ${err}`);
+  // }
 };
 
 // creates a model for the 'user' collection

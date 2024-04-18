@@ -3,6 +3,7 @@
 
 // import the schema
 const { Video, Profile } = require("../models/database_schema.js");
+const profileClass = require("../models/profileClass.js");
 
 // add the controller object to export
 const profileController = {};
@@ -14,8 +15,34 @@ profileController.profile = async (req, res, next) => {
   try {
     const profile = await Profile.findOne({ displayName: user });
     console.log("profile ===>", profile);
-    res.status(200).json(profile);
     if (!profile) throw new Error("user not found");
+    // loop through the array of videos
+    const videos = await Promise.all(
+      profile.videos.map(async (id) => {
+        //for each item in videos fetch the schema related to that video id
+        console.log("this is id ====>", id.toString()); // this works
+        // the error happens here when I try to fetch a video it retursn a crazy object.
+        const data = await Video.findOne({ _id: id.toString() });
+        // const video = await data.json();
+        if (!data) {
+          console.log(`Video with ID ${id} not found`);
+          return null;
+        }
+        console.log("video definition in loop", data.url);
+        // return the video urls? (mabye I should be using reduce... )
+        return data.url;
+      })
+    );
+    // use profile class to make a new object to send to front end
+    // use fine one and update to add 1o points to the user
+    const profileIncremented = await findOneAndUpdate(
+      { displayName: user },
+      { $inc: { points: 10 } },
+      { new: true }
+    );
+    const userObj = new profileClass(profileIncremented, videos);
+    // send the new user to front end
+    res.status(200).json(userObj);
   } catch (err) {
     const error = {
       log: `Express error handler caught error when trying to serve the profile in profileConrtoller ${err}`,
@@ -33,6 +60,7 @@ profileController.addSkill = async (req, res, next) => {
   const { url, title, subject } = req.body;
   const { user } = req.params;
   // create the video and return the id
+  console.log("user ====> ", user);
   try {
     const video = await Video.create({
       subject,
