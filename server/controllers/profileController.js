@@ -20,27 +20,21 @@ profileController.profile = async (req, res, next) => {
     const videos = await Promise.all(
       profile.videos.map(async (id) => {
         //for each item in videos fetch the schema related to that video id
-        console.log("this is id ====>", id.toString()); // this works
-        // the error happens here when I try to fetch a video it retursn a crazy object.
         const data = await Video.findOne({ _id: id.toString() });
         // const video = await data.json();
         if (!data) {
+          // if there is not return for the video, return null
           console.log(`Video with ID ${id} not found`);
           return null;
         }
         console.log("video definition in loop", data.url);
-        // return the video urls? (mabye I should be using reduce... )
+        // return the video urls
         return data.url;
       })
     );
     // use profile class to make a new object to send to front end
-    // use fine one and update to add 1o points to the user
-    const profileIncremented = await findOneAndUpdate(
-      { displayName: user },
-      { $inc: { points: 10 } },
-      { new: true }
-    );
-    const userObj = new profileClass(profileIncremented, videos);
+
+    const userObj = new profileClass(profile, videos);
     // send the new user to front end
     res.status(200).json(userObj);
   } catch (err) {
@@ -73,8 +67,10 @@ profileController.addSkill = async (req, res, next) => {
     // respond to client
     const update = await Profile.findOneAndUpdate(
       { displayName: user },
-      { $push: { videos: id } }
+      { $push: { videos: id }, $inc: { points: 10 } },
+      { new: true }
     );
+    console.log("updated user ===>", update);
     if (!update) throw new Error("unable to add video to users profile");
     // check for update and if not throw err
     return res.sendStatus(200);
