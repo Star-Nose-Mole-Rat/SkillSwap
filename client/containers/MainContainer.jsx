@@ -33,6 +33,11 @@ const MainContainer = () => {
       dispatch(addVideos(data.videos));
       dispatch(addPoints(data.points));
       navigate('/search');
+    } else {
+      alert('username or password not matched!');
+      console.log('Invalid username or password');
+      navigate('/');
+      window.location.reload();
     }
   } catch (err) {
     console.log('Error in handleLogin', err)
