@@ -1,7 +1,7 @@
-const express = require("express");
+const express = require('express');
 const app = express();
-const path = require("path");
-const cookieParser = require("cookie-parser");
+const path = require('path');
+const cookieParser = require('cookie-parser');
 
 const userController = require("./controllers/userController.js");
 const cookieController = require("./controllers/cookieController.js");
@@ -19,34 +19,32 @@ app.use(cookieParser());
 app.use(express.static(path.resolve(__dirname, "../dist")));
 
 // root (homepage)
-app.get("/", cookieController.setCookie, (req, res) => {
+app.get('/', (req, res) => {
   return res.status(200).sendFile(path.join(__dirname, "../index.html"));
 });
 
 // login
 app.post(
-  "/login",
+  '/login',
   userController.verifyUser,
   cookieController.setSSIDCookie,
   (req, res) => {
-    // On successful login, redirects to search page
-    return res.status(200).redirect("/search");
+    // On successful login, sends userId back to frontend
+    return res.status(200).json({userID: res.locals.userID, status: 200});
   }
 );
 
 // signup
-app.get("/signup", (req, res) => {
-  // Returns signup page
-  return res.status(200).redirect("/signup");
-});
-
-// when making a post request to sign up on success will respond with 200
 app.post(
-  "/signup",
+  '/signup',
   userController.addUser,
   cookieController.setSSIDCookie,
   (req, res) => {
-    return res.sendStatus(200);
+    // On successful signup, send user/profile IDs back to frontend
+    return res.status(200).json({
+      userID: res.locals.userID,
+      profileID: res.locals.profileID,
+    });
   }
 );
 
@@ -99,6 +97,7 @@ app.use((err, req, res, next) => {
   defaultErr.log = err.log;
   defaultErr.message = err.message;
   const errorObj = Object.assign({}, defaultErr);
+  console.log("in global error handler")
 });
 
 app.listen(PORT, () => {
