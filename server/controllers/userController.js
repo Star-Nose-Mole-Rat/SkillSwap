@@ -1,5 +1,5 @@
 // in this file we will validate the user and route them to the correct page or redirect them to sign in
-const { User, Profile } = require("../models/database_schema.js");
+const { User, Profile } = require('../models/database_schema.js');
 
 const userController = {};
 
@@ -13,17 +13,19 @@ userController.verifyUser = async (req, res, next) => {
     // authenticate the password
     const match = await User.verifyPassword(password, user.password);
     if (match) {
-      console.log("User verified!");
+      console.log('User verified!');
+      // Return userId back to frontend
+      res.locals = {
+        userID: user._id,
+      };
       return next();
     } else {
-      console.log("Invalid credentials!");
-      // redirect to homepage to re-login
-      return res.redirect("/");
+      console.log('Invalid credentials!');
+      return res.status(504).json({status: 504});
     }
   } catch (err) {
-    console.log("No match found for username!");
-    // redirect to signup page
-    return res.redirect("/signup");
+    console.log('No match found for username!');
+    return res.status(500).json({status: 500});
   }
 };
 
@@ -32,53 +34,39 @@ userController.addUser = async (req, res, next) => {
   // grab the user information from the request body
   const { username, password, displayName } = req.body;
   // add new user to database and create user profile
-  console.log("in controller");
   try {
     const newUser = await User.create({
       username,
       password,
     });
-    console.log("New user saved to db.");
+    console.log('New user saved to db.');
     console.log(newUser);
     // create profile for new user
-    if (!newUser)
-      throw new Error({
-        log: `Express error handler caught error when trying to add a new profile in userController: ${err}`,
-        status: 500,
-        message: {
-          err: "Express error handler caught error when trying to add a new profile in userController",
-        },
-      });
-    else {
+    if (newUser) {
       try {
         const newProfile = await Profile.create({
           displayName,
           username: newUser._id,
           points: 0,
         });
-        console.log("New user profile created.");
+        console.log('New user profile created.');
         console.log(newProfile);
-        return next();
-      } catch (err) {
-        const error = {
-          log: `Express error handler caught error when trying to add a new profile in userController: ${err}`,
-          status: 500,
-          message: {
-            err: "Express error handler caught error when trying to add a new profile in userController",
-          },
+        // Return user and profile id back to frontend
+        res.locals = {
+          userID: newUser._id,
+          profileID: newProfile._id,
         };
-        return next(error);
+        return next();
+      }
+      catch (err) {
+        console.log(`Error in creating new profile: ${err}`);
+        return next({err});
       }
     }
-  } catch (err) {
-    const error = {
-      log: `Express error handler caught error when trying to add a new user in userController: ${err}`,
-      status: 500,
-      message: {
-        err: "Express error handler caught error when trying to add a new user in userController",
-      },
-    };
-    return next(error);
+  }
+  catch (err) {
+    console.log(`Error in creating new user: ${err}`);
+    return next({err});
   }
 };
 

@@ -21,17 +21,36 @@ const MainContainer = () => {
             },
             body: JSON.stringify({ username, password })
           })
+          .then(res => {
+            // Convert response to JSON to retrieve user data
+            console.log(res);
+            return res.json();
+          })
           .then(data => {
-            if (data.ok) {
-            dispatch(addUser(username));
-            // need to fetch user info(displayname, points, videos) based on the username
-
-            // dispatch(addVideos(data.videos));
-            // dispatch(addPoints(data.points));
-            navigate('/search');
+            console.log(data);
+            // If username not found, redirect to signup page
+            if (data.status === 500) {
+              alert("No user found! Please sign up.");
+              navigate('/signup');
+            }
+            // If password for username is wrong, refresh the page
+            else if (data.status === 504) {
+              alert("Invalid credentials! Please try again.");
+              window.location.reload();
+            }
+            // If login credentials are correct, redirect to search page
+            else if (data.status === 200) {
+              dispatch(addUser(username));
+              console.log(data.userID);
+              // Use userID to fetch profile info (displayname, points, videos)
+              // dispatch(addVideos(data.videos));
+              // dispatch(addPoints(data.points));
+              navigate('/search');
             }
           })
-          .catch(err => { console.log('Error in Login', err)});
+          .catch(err => { 
+            console.log('Error in Login', err);
+          });
   }  
 
     return (
