@@ -1,7 +1,7 @@
-const express = require("express");
+const express = require('express');
 const app = express();
-const path = require("path");
-const cookieParser = require("cookie-parser");
+const path = require('path');
+const cookieParser = require('cookie-parser');
 
 const userController = require("./controllers/userController.js");
 const cookieController = require("./controllers/cookieController.js");
@@ -19,7 +19,7 @@ app.use(cookieParser());
 app.use(express.static(path.resolve(__dirname, "../dist")));
 
 // root (homepage)
-app.get("/", (req, res) => {
+app.get('/', (req, res) => {
   return res.status(200).sendFile(path.join(__dirname, "../index.html"));
 });
 
