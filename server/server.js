@@ -30,7 +30,7 @@ app.post(
   cookieController.setSSIDCookie,
   (req, res) => {
     // On successful login, redirects to search page
-    return res.status(200).redirect("/search");
+    return res.status(200).json(res.locals.profile);
   }
 );
 
@@ -54,7 +54,7 @@ app.post(
 // app.use('/search', searchRouter);
 // respond to a post request to /addSkill
 // these are the pofile requests:
-app.post("/addSkill/:user", profileController.addSkill);
+app.post("/addSkill/", profileController.addSkill);
 app.get("/profile/:user", profileController.profile);
 
 

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { Button, Form, FormGroup, Row, Col, Container } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
-import { addVideos, addPoints, addUser } from '../userSlice';
+import { addVideos, addPoints, addUser, addDisplayName } from '../userSlice';
 
 const MainContainer = () => {
   const [username, setUsername] = useState('');
@@ -11,28 +11,33 @@ const MainContainer = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
-
-    fetch('/login', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ username, password })
-          })
-          .then(data => {
-            if (data.ok) {
-            dispatch(addUser(username));
-            // need to fetch user info(displayname, points, videos) based on the username
-
-            // dispatch(addVideos(data.videos));
-            // dispatch(addPoints(data.points));
-            navigate('/search');
-            }
-          })
-          .catch(err => { console.log('Error in Login', err)});
-  }  
+    try {
+    const response = await fetch('/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ username, password })
+    })
+    if (response.ok) {
+      const data = await response.json();
+      console.log('profile data: ', data);
+      console.log('profile.displayname', data.displayName);
+      console.log('profile.videos', data.videos);
+      console.log('profile.points', data.points);
+      dispatch(addUser(username));
+      // need to fetch user info(displayname, points, videos) based on the username
+      dispatch(addDisplayName(data.displayName));
+      dispatch(addVideos(data.videos));
+      dispatch(addPoints(data.points));
+      navigate('/search');
+    }
+  } catch (err) {
+    console.log('Error in handleLogin', err)
+  }
+}  
 
     return (
       <Container className="mt-3">

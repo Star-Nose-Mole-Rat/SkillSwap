@@ -14,11 +14,14 @@ userController.verifyUser = async (req, res, next) => {
     const match = await User.verifyPassword(password, user.password);
     if (match) {
       console.log("User verified!");
+      const profile = await Profile.findOne({ username: user._id });
+      console.log('profile ===>', profile)
+      res.locals.profile = profile
       return next();
     } else {
       console.log("Invalid credentials!");
       // redirect to homepage to re-login
-      return res.redirect("/");
+      return res.status(504).json({ message: 'invalid credential!'});
     }
   } catch (err) {
     console.log("No match found for username!");
