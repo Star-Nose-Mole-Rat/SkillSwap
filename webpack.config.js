@@ -28,21 +28,23 @@ module.exports = {
   },
   devServer: {
     historyApiFallback: true,
+    historyApiFallback: true,
     static: {
       directory: path.resolve(__dirname, "dist"),
       publicPath: "/dist",
     },
     proxy: [
       {
-        context: ["/"],
-        target: "http://localhost:3000",
+        context: ['/'],
+        target: 'http://localhost:3000',
       },
     ],
+  
   },
 
   plugins: [
     new HtmlWebpackPlugin({
-      template: path.join(__dirname, "client", "index.html"),
+      template: 'index.html',
     }),
   ],
 };

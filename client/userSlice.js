@@ -1,10 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit'
 const initialState = {
-  	username: 'none',
-	displayName: 'none',
+  	username: '',
+	displayName: '',
 	skills: [],
 	points: 0,
-	videos: [`how to solve for resistance, ohm\'s law`, 'how to play for Elise', 'how to make delicious coffee'] 
+	videos: [] 
   };
 
   export const userSlice = createSlice({
@@ -23,10 +23,13 @@ const initialState = {
 		addVideo: (state, action) => {
 				state.videos.push(action.payload);
 			},
-		addToPoints: (state, action) => {
+		addVideos: (state, action) => {
+			action.payload.forEach(video => state.videos.push(video))
+		},
+		addPoints: (state, action) => {
 				state.points += action.payload;
 			},
 		}
   })
-export const {addUser, addDisplayName, addSkill, addVideo, addToPoints} = userSlice.actions;
+export const {addUser, addDisplayName, addSkill, addVideo, addVideos, addPoints} = userSlice.actions;
 export default userSlice.reducer;
