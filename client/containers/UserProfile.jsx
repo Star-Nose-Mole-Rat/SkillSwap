@@ -52,12 +52,12 @@ const userProfile = () => {
                 </div>
                 
                 <div className='uploadVideo'>
-                    <p>upload video button here</p>
+                    <p>Upload Video:</p>
                     <input type = 'text' value={video} onChange={(e) => setVideo(e.target.value)} style={{ marginRight: '10px' }}></input>
                     <Button className='btn btn-info' onClick={handleAddVideo}>Upload Video</Button>
                 </div>
                 <div className='uploadedVideos'>
-                    <p>uploaded videos shown here</p>
+                    <p>Your Uploaded Videos:</p>
                     <div className='videoDisplay'>
                     {listOfVideos.map((video, i) => <YoutubeEmbed key={i} embedId={video} />)}
                     </div>

@@ -23,7 +23,7 @@ const SearchContainer = () => {
       })
       .then(data => data.json())
       .then(data => console.log(data))
-      .catch(err => { console.log('invalid fetch request', err)});
+      .catch(err => { console.log('invalid search request', err)});
   }
 
     return (
