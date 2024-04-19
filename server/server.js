@@ -1,11 +1,12 @@
-const express = require('express');
+const express = require("express");
 const app = express();
-const path = require('path');
-const cookieParser = require('cookie-parser');
+const path = require("path");
+const cookieParser = require("cookie-parser");
 
 const userController = require("./controllers/userController.js");
 const cookieController = require("./controllers/cookieController.js");
 const profileController = require("./controllers/profileController.js");
+const searchController = require("./controllers/searchController.js");
 
 const PORT = 3000;
 
@@ -19,24 +20,24 @@ app.use(cookieParser());
 app.use(express.static(path.resolve(__dirname, "../dist")));
 
 // root (homepage)
-app.get('/', (req, res) => {
+app.get("/", (req, res) => {
   return res.status(200).sendFile(path.join(__dirname, "../index.html"));
 });
 
 // login
 app.post(
-  '/login',
+  "/login",
   userController.verifyUser,
   cookieController.setSSIDCookie,
   (req, res) => {
     // On successful login, sends userId back to frontend
-    return res.status(200).json({userID: res.locals.userID, status: 200});
+    return res.status(200).json({ userID: res.locals.userID, status: 200 });
   }
 );
 
 // signup
 app.post(
-  '/signup',
+  "/signup",
   userController.addUser,
   cookieController.setSSIDCookie,
   (req, res) => {
@@ -50,9 +51,9 @@ app.post(
 
 // these are the pofile requests:
 // adds a video skill to the user profile
-app.post("/profile", profileController.addSkill);
+app.post("/addSkill", profileController.addSkill);
 // serves the user profile with video links
-app.get("/profile/:user", profileController.profile);
+app.get("/profile/:userId", profileController.profile);
 // checks to see if user has enough points and if so, decrements the points
 app.patch("/profile", profileController.usePoints);
 
@@ -61,9 +62,9 @@ app.get("/profile", (req, res) => {
 });
 
 // frontend test search query
-app.get("/searchKeyword", (req, res) => {
+app.get("/searchKeyword", searchController.searchVideo, (req, res) => {
   console.log("query", req.query.searchword);
-  return res.status(200).send(["banana", "apple", "pineapple"]);
+  return res.status(200).send(res.locals.videoList);
 });
 
 // frontend test for addvideo
@@ -97,7 +98,7 @@ app.use((err, req, res, next) => {
   defaultErr.log = err.log;
   defaultErr.message = err.message;
   const errorObj = Object.assign({}, defaultErr);
-  console.log("in global error handler")
+  console.log("in global error handler");
 });
 
 app.listen(PORT, () => {
