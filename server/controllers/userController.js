@@ -16,7 +16,7 @@ userController.verifyUser = async (req, res, next) => {
       console.log('User verified!');
       // Return userId back to frontend
       res.locals = {
-        userID: user._id,
+        userID: user._id
       };
       return next();
     } else {

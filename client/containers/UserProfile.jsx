@@ -20,7 +20,8 @@ const userProfile = () => {
         e.preventDefault();
         
         // change to POST request with the body of username, uri, keywords
-        fetch(`/addvideo?username=${username}&videouri=${video}`)
+        fetch(`/addSkill`, {method: 'POST', headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({user: username, url: video, title: '', subject: '', keyword: ''})})
         .then(data => {
             if (data.ok) {
                 dispatch(addVideo(video));

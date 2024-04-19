@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { Button, Form, FormGroup, Row, Col, Container } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
-import { addVideos, addPoints, addUser } from '../userSlice';
+import { addVideos, addPoints, addUser, addDisplayName } from '../userSlice';
 
 const MainContainer = () => {
   const [username, setUsername] = useState('');
@@ -43,6 +43,7 @@ const MainContainer = () => {
               dispatch(addUser(username));
               console.log(data.userID);
               // Use userID to fetch profile info (displayname, points, videos)
+              // dispatch(addDisplayName(data.displayName));
               // dispatch(addVideos(data.videos));
               // dispatch(addPoints(data.points));
               navigate('/search');
