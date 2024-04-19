@@ -10,10 +10,11 @@ const profileController = {};
 // responds to a request with the infromation on the user profile
 profileController.profile = async (req, res, next) => {
   // from what ever is on params, serve the coorisponding user profile info
-  const { user } = req.params;
-  console.log("user ====> ", user);
+  // ====> update this to user userID
+  const { userId } = req.params;
+  console.log("user ====> ", userId);
   try {
-    const profile = await Profile.findOne({ displayName: user });
+    const profile = await Profile.findOne({ username: userId });
     console.log("profile ===>", profile);
     if (!profile) throw new Error("user not found");
     // loop through the array of videos
@@ -29,7 +30,7 @@ profileController.profile = async (req, res, next) => {
         }
         console.log("video definition in loop", data.url);
         // return the video urls
-        return data.url;
+        return data;
       })
     );
     // use profile class to make a new object to send to front end
@@ -51,28 +52,29 @@ profileController.profile = async (req, res, next) => {
 // Adds a skill to a user profile, increases user points, and also respond to the request with 200
 profileController.addSkill = async (req, res, next) => {
   // I will expect the body to have an object on it that looks like this: { url, title, subject, user }
-  const { url, title, subject, displayName } = req.body;
+  const { url, title, subject, user } = req.body;
+  console.log("whats on the body", req.body);
   // create the video and return the id
-  console.log("user ====> ", displayName);
   try {
     const video = await Video.create({
       subject,
       title,
       url,
     });
+    console.log("this is the video", video);
     if (!video) throw new Error("unable to create new video in mondoDB");
     const id = video._id.toString();
     // use find one and update user profile to add this video to the array
     // respond to client
     const update = await Profile.findOneAndUpdate(
-      { displayName },
+      { username: user },
       { $push: { videos: id }, $inc: { points: 10 } },
       { new: true }
     );
     console.log("updated user ===>", update);
     if (!update) throw new Error("unable to add video to users profile");
     // check for update and if not throw err
-    return res.sendStatus(200);
+    return res.sendStatus(200).json({ points: update.points });
   } catch (err) {
     const error = {
       log: `Express error handler caught error when trying to create add a video in profileConrtoller ${err}`,
