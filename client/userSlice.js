@@ -25,7 +25,7 @@ export const userSlice = createSlice({
       state.skills.push(action.payload);
     },
     addVideo: (state, action) => {
-      state.videos.push(action.payload);
+      state.videos.push({url: action.payload});
     },
     addVideos: (state, action) => {
       action.payload.forEach((video) => state.videos.push(video));
