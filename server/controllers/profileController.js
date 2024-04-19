@@ -74,7 +74,7 @@ profileController.addSkill = async (req, res, next) => {
     console.log("updated user ===>", update);
     if (!update) throw new Error("unable to add video to users profile");
     // check for update and if not throw err
-    return res.sendStatus(200);
+    return res.sendStatus(200).json({ points: update.points });
   } catch (err) {
     const error = {
       log: `Express error handler caught error when trying to create add a video in profileConrtoller ${err}`,
