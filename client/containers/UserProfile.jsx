@@ -88,7 +88,7 @@ const userProfile = () => {
               value={video}
               onChange={(e) => setVideo(e.target.value)}
               style={{ marginRight: "10px" }}
-              placeholder="Enter url"
+              placeholder="Enter video ID"
             ></input>
             <Button className="btn btn-info" onClick={handleAddVideo}>
               Upload Video
