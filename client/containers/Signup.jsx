@@ -22,6 +22,8 @@ const Signup = () => {
             },
             body: JSON.stringify({ username, password, displayName })
           })
+          // Convert response to JSON to retrieve user/profile data
+          .then(res => res.json())
           .then(data => {
             console.log(data);
             dispatch(addUser(username));

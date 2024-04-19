@@ -11,38 +11,48 @@ const MainContainer = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const handleLogin = async (e) => {
+  const handleLogin = (e) => {
     e.preventDefault();
-    try {
-    const response = await fetch('/login', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ username, password })
-    })
-    if (response.ok) {
-      const data = await response.json();
-      console.log('profile data: ', data);
-      console.log('profile.displayname', data.displayName);
-      console.log('profile.videos', data.videos);
-      console.log('profile.points', data.points);
-      dispatch(addUser(username));
-      // need to fetch user info(displayname, points, videos) based on the username
-      dispatch(addDisplayName(data.displayName));
-      dispatch(addVideos(data.videos));
-      dispatch(addPoints(data.points));
-      navigate('/search');
-    } else {
-      alert('Invalid Username or Password!');
-      console.log('Invalid username or password');
-      navigate('/');
-      window.location.reload();
-    }
-  } catch (err) {
-    console.log('Error in handleLogin', err)
-  }
-}  
+
+    fetch('/login', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ username, password })
+          })
+          .then(res => {
+            // Convert response to JSON to retrieve user data
+            console.log(res);
+            return res.json();
+          })
+          .then(data => {
+            console.log(data);
+            // If username not found, redirect to signup page
+            if (data.status === 500) {
+              alert("No user found! Please sign up.");
+              navigate('/signup');
+            }
+            // If password for username is wrong, refresh the page
+            else if (data.status === 504) {
+              alert("Invalid credentials! Please try again.");
+              window.location.reload();
+            }
+            // If login credentials are correct, redirect to search page
+            else if (data.status === 200) {
+              dispatch(addUser(username));
+              console.log(data.userID);
+              // Use userID to fetch profile info (displayname, points, videos)
+              // dispatch(addDisplayName(data.displayName));
+              // dispatch(addVideos(data.videos));
+              // dispatch(addPoints(data.points));
+              navigate('/search');
+            }
+          })
+          .catch(err => { 
+            console.log('Error in Login', err);
+          });
+  }  
 
     return (
       <Container className="mt-3">
