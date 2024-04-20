@@ -3,8 +3,8 @@
     /* overflow: hidden; */
     padding: 20px;
     position: relative;
-    width: 30%;
-    height: 20%;
+    width: 100%;
+    height: 100%;
   }
   
 .video-responsive iframe {
@@ -18,6 +18,27 @@
     flex-direction: row;
     flex-wrap: wrap;
     height: 100%;
+    text-align: center;
 }
 
+.searchResults {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    height: 100%;
+}
 /* user profile */
+.user_profile {
+    /* text-align: center; */
+    margin: 20px 30px;
+}
+
+.line_between {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border-top: 1px solid grey;
+}
+
+.uploadVideo {
+    margin-bottom: 20px;
+}

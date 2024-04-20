@@ -10,11 +10,12 @@ const userProfile = () => {
   const [video, setVideo] = useState("");
   const [title, setTitle] = useState("");
   const [subject, setSubject] = useState("");
+  const [points, setPoints] = useState(useSelector((state) => state.users.points))
 
   const dispatch = useDispatch();
   const listOfVideos = useSelector((state) => state.users.videos);
   const username = useSelector((state) => state.users.username);
-  const points = useSelector((state) => state.users.points);
+  // const points = useSelector((state) => state.users.points);
   const displayName = useSelector((state) => state.users.displayName);
   const userID = useSelector((state) => state.users.userId);
 
@@ -33,11 +34,18 @@ const userProfile = () => {
         subject: subject,
       }),
     })
-      .then((data) => {
-        if (data.ok) {
-          dispatch(addVideo(video));
+      .then((res) => {
+        console.log(res);
+        if (res.ok) {
+        return res.json();
         }
       })
+      .then((data) => {
+        console.log(data);
+        console.log('data.points', data.points);
+        setPoints(data.points);
+        dispatch(addVideo(video));
+      }) 
       .catch((err) => console.log("Error in handleAddVideo", err));
   };
   return (
@@ -48,7 +56,7 @@ const userProfile = () => {
           <h2>User Profile</h2>
         </div>
       </Row>
-      <div className="d-flex justify-content-center align-items-center">
+      <div className="user_profile">
         <div className="profile-picture">{/* <img href='#' /> */}</div>
         <div className="general-info">
           <div className="name">
@@ -60,7 +68,7 @@ const userProfile = () => {
           <div className="points">
             <p>Points: {points}</p>
           </div>
-
+          <div className='line_between'></div>
           <div className="uploadVideo">
             <p>Upload Video:</p>
             <input
@@ -80,17 +88,21 @@ const userProfile = () => {
               value={video}
               onChange={(e) => setVideo(e.target.value)}
               style={{ marginRight: "10px" }}
-              placeholder="Enter url"
+              placeholder="Enter video ID"
             ></input>
             <Button className="btn btn-info" onClick={handleAddVideo}>
               Upload Video
             </Button>
           </div>
+          <div className='line_between'></div>
           <div className="uploadedVideos">
-            <p>Your Uploaded Videos:</p>
+            <p>Your Videos:</p>
             <div className="videoDisplay">
               {listOfVideos.map((video, i) => (
-                <YoutubeEmbed key={i} embedId={video} />
+                <div key={i}>
+                <YoutubeEmbed embedId={video.url} />
+                <p>{video.title}</p>
+                </div>
               ))}
             </div>
           </div>

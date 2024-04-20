@@ -68,11 +68,11 @@ app.get("/searchKeyword", searchController.searchVideo, (req, res) => {
 });
 
 // frontend test for addvideo
-app.get("/addvideo", (req, res) => {
-  console.log("query.username", req.query.username);
-  console.log("query.videouri", req.query.videouri);
-  return res.status(200).send("addvideo OK");
-});
+// app.get("/addvideo", (req, res) => {
+//   console.log("query.username", req.query.username);
+//   console.log("query.videouri", req.query.videouri);
+//   return res.status(200).send("addvideo OK");
+// });
 
 //NOTE: catch all route handler for any request to an unknown route
 app.use((req, res) => {
