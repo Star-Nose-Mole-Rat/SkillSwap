@@ -14,7 +14,11 @@ const SearchContainer = () => {
     e.preventDefault();
     setSearch(e.target.value);
   };
-
+ 
+  const handleVideoAccessed = e => {
+    console.log('video was clicked');
+  
+  };
   const handleSearch = (e) => {
     e.preventDefault();
     console.log("searching for: ", search);
