@@ -10,7 +10,9 @@ const userProfile = () => {
   const [video, setVideo] = useState("");
   const [title, setTitle] = useState("");
   const [subject, setSubject] = useState("");
-  const [points, setPoints] = useState(useSelector((state) => state.users.points))
+  const [points, setPoints] = useState(
+    useSelector((state) => state.users.points)
+  );
 
   const dispatch = useDispatch();
   const listOfVideos = useSelector((state) => state.users.videos);
@@ -37,15 +39,15 @@ const userProfile = () => {
       .then((res) => {
         console.log(res);
         if (res.ok) {
-        return res.json();
+          return res.json();
         }
       })
       .then((data) => {
         console.log(data);
-        console.log('data.points', data.points);
+        console.log("data.points", data.points);
         setPoints(data.points);
         dispatch(addVideo(video));
-      }) 
+      })
       .catch((err) => console.log("Error in handleAddVideo", err));
   };
   return (
@@ -68,7 +70,7 @@ const userProfile = () => {
           <div className="points">
             <p>Points: {points}</p>
           </div>
-          <div className='line_between'></div>
+          <div className="line_between"></div>
           <div className="uploadVideo">
             <p>Upload Video:</p>
             <input
@@ -94,16 +96,18 @@ const userProfile = () => {
               Upload Video
             </Button>
           </div>
-          <div className='line_between'></div>
+          <div className="line_between"></div>
           <div className="uploadedVideos">
             <p>Your Videos:</p>
             <div className="videoDisplay">
-              {listOfVideos.map((video, i) => (
-                <div key={i}>
-                <YoutubeEmbed embedId={video.url} />
-                <p>{video.title}</p>
-                </div>
-              ))}
+              {listOfVideos.map((video, i) =>
+                video.url ? (
+                  <div key={i}>
+                    <YoutubeEmbed embedId={video.url} />
+                    <p>{video.title}</p>
+                  </div>
+                ) : null
+              )}
             </div>
           </div>
         </div>
