@@ -56,12 +56,14 @@ const SearchContainer = () => {
       </div>
       <div className="searchResults">
         {/* recent added videos by users should be displayed */}
-        {videos.map((video, i) => (
-          <div key={i}>
-          <YoutubeEmbed embedId={video.url} />
-          <p>{video.title}</p>
-          </div>
-        ))}
+        {videos.map((video, i) =>
+          video.url ? (
+            <div key={i}>
+              <YoutubeEmbed embedId={video.url} />
+              <p>{video.title}</p>
+            </div>
+          ) : null
+        )}
       </div>
     </div>
   );
