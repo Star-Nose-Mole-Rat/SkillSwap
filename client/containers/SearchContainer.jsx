@@ -2,8 +2,9 @@ import React, { useState } from "react";
 // import { useSelector, useDispatch } from "react-redux";
 import { Button } from "react-bootstrap";
 import NavBar from "../components/Nav.jsx";
-import YoutubeEmbed from "../components/YoutubeEmbed.jsx";
-import { addVideos } from "../userSlice.js";
+// import YoutubeEmbed from "../components/YoutubeEmbed.jsx";
+// import { addVideos } from "../userSlice.js";
+import SearchResults from "../components/SearchResults.jsx";
 
 const SearchContainer = () => {
   const [search, setSearch] = useState("");
@@ -26,11 +27,9 @@ const SearchContainer = () => {
       .then((data) => data.json())
       .then((data) => {
         console.log(data);
+        // if data is null, how can we render a message informing the user?
         setVideos(data);
       })
-
-      // url location: data[0].url
-      // [{url: },]
       .catch((err) => {
         console.log("invalid search request", err);
       });
@@ -54,16 +53,19 @@ const SearchContainer = () => {
           Search
         </Button>
       </div>
-      <div className="searchResults">
-        {/* recent added videos by users should be displayed */}
-        {videos.map((video, i) =>
+      <div>
+        <SearchResults videos={videos} />
+
+        {/* {videos.map((video, i) =>
           video.url ? (
             <div key={i}>
               <YoutubeEmbed embedId={video.url} />
               <p>{video.title}</p>
             </div>
-          ) : null
-        )}
+          ) : (
+            <p>Video not found</p>
+          )
+        )} */}
       </div>
     </div>
   );
