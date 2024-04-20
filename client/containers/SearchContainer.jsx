@@ -26,8 +26,6 @@ const SearchContainer = () => {
       .then((data) => data.json())
       .then((data) => {
         console.log(data);
-        // console.log(data[0].url);
-        // dispatch(addVideos([data[0].url]));
         setVideos(data);
       })
 
@@ -49,7 +47,7 @@ const SearchContainer = () => {
           type="text"
           id="input_search"
           onChange={handleSearchChange}
-          placeholder="Search..."
+          placeholder="Search subject..."
           style={{ marginRight: "10px" }}
         />
         <Button onClick={handleSearch} className="btn btn-info">
@@ -58,9 +56,14 @@ const SearchContainer = () => {
       </div>
       <div className="searchResults">
         {/* recent added videos by users should be displayed */}
-        {videos.map((video, i) => (
-          <YoutubeEmbed key={i} embedId={video.url} />
-        ))}
+        {videos.map((video, i) =>
+          video.url ? (
+            <div key={i}>
+              <YoutubeEmbed embedId={video.url} />
+              <p>{video.title}</p>
+            </div>
+          ) : null
+        )}
       </div>
     </div>
   );
