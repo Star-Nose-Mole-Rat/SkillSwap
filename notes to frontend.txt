@@ -1,24 +1,29 @@
-this is an example of what will be returned when a GET request is made to:
-localhost:8080/profile/lelo
+
+To get the profile information on a user:
+GET request to /profile/<param>
 (lelo is a param)
+
+Example Response for lelo =>
 {
     "_id": "661f3241d1a87f3f7b938539",
     "displayName": "lelo",
     "username": "661f3241d1a87f3f7b938537",
     "videos": [
-        "661f350c120798b2debfddce"
+        <"video urls">
     ],
     "points": 0,
     "savedSkills": [],
     "__v": 0
 }
 
-=====> im thinking that we probably need to work on getting you the url for the videos instead of the id number....
+To save a video:
+POST request to /profile/
+body: { video url, title, subject, displayName }
+(note: lelo is a param)
+Reponse => { url, title, subject }
 
-if you want to save a video this is what the backend is lookign for
-a POST request to
-localhost:8080/savedSkills/lelo
 
-(lelo can be replaced with any user name)
-
-with a body with these properties: { url, title, subject }
+To update a user's points to watch a video:
+A PATCH request to /profile
+body: user (note: I am expecting the whole object, but only need the id. Let me know what you end up using)
+Response => {sufficianPoints : <boolean>} {profile: <updated profile>}

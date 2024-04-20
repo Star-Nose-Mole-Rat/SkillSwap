@@ -1,7 +1,7 @@
-const express = require("express");
+const express = require('express');
 const app = express();
-const path = require("path");
-const cookieParser = require("cookie-parser");
+const path = require('path');
+const cookieParser = require('cookie-parser');
 
 const userController = require("./controllers/userController.js");
 const cookieController = require("./controllers/cookieController.js");
@@ -19,79 +19,70 @@ app.use(cookieParser());
 app.use(express.static(path.resolve(__dirname, "../dist")));
 
 // root (homepage)
-app.get("/", cookieController.setCookie, (req, res) => {
+app.get('/', (req, res) => {
   return res.status(200).sendFile(path.join(__dirname, "../index.html"));
 });
 
 // login
 app.post(
-  "/login",
+  '/login',
   userController.verifyUser,
   cookieController.setSSIDCookie,
   (req, res) => {
-    // On successful login, redirects to search page
-    return res.status(200).json(res.locals.profile);
+    // On successful login, sends userId back to frontend
+    return res.status(200).json({userID: res.locals.userID, status: 200});
   }
 );
 
 // signup
-app.get("/signup", (req, res) => {
-  // Returns signup page
-  return res.status(200).redirect("/signup");
-});
-
-// when making a post request to sign up on success will respond with 200
 app.post(
-  "/signup",
+  '/signup',
   userController.addUser,
   cookieController.setSSIDCookie,
   (req, res) => {
-    return res.sendStatus(200);
+    // On successful signup, send user/profile IDs back to frontend
+    return res.status(200).json({
+      userID: res.locals.userID,
+      profileID: res.locals.profileID,
+    });
   }
 );
-// from here will can do a port request or a
-// app.use('/userprofile', profileRouter);
-// app.use('/search', searchRouter);
-// respond to a post request to /addSkill
+
 // these are the pofile requests:
-app.post("/addSkill", profileController.addSkill);
+// adds a video skill to the user profile
+app.post("/profile", profileController.addSkill);
+// serves the user profile with video links
 app.get("/profile/:user", profileController.profile);
+// checks to see if user has enough points and if so, decrements the points
+app.patch("/profile", profileController.usePoints);
 
-
-
-app.get('/profile', (req, res) => {
+app.get("/profile", (req, res) => {
   return res.status(200);
 });
 
-// frontend login test 
-// app.post('/login', (req, res) => {
-//   return res.status(200).send({ points: 100, videos: ['abc', 'banana', 'water']});
-// })
-
-
 // frontend test search query
-app.get('/searchKeyword', (req, res) => {
-  console.log('query', req.query.searchword);
-  return res.status(200).send(['banana', 'apple', 'pineapple']);
+app.get("/searchKeyword", (req, res) => {
+  console.log("query", req.query.searchword);
+  return res.status(200).send(["banana", "apple", "pineapple"]);
 });
 
-
-
 // frontend test for addvideo
-// app.get('/addvideo', (req, res) => {
-//   console.log('query.username', req.query.username)
-//   console.log('query.videouri', req.query.videouri);
-//   return res.status(200).send('addvideo OK');
-// })
+app.get("/addvideo", (req, res) => {
+  console.log("query.username", req.query.username);
+  console.log("query.videouri", req.query.videouri);
+  return res.status(200).send("addvideo OK");
+});
 
 //NOTE: catch all route handler for any request to an unknown route
 app.use((req, res) => {
-  return res.status(200).sendFile(path.join(__dirname, '../dist/index.html'), (err) => {
-    if (err) {
-      console.log(err);
-      return res.status(500).send('An error occured');
-    }
-  });
+  return res
+    .status(200)
+    .sendFile(path.join(__dirname, "../dist/index.html"), (err) => {
+      if (err) {
+        console.log(err);
+        return res.status(500).send("An error occured");
+      }
+    });
 });
 
 // global error handler
@@ -106,6 +97,7 @@ app.use((err, req, res, next) => {
   defaultErr.log = err.log;
   defaultErr.message = err.message;
   const errorObj = Object.assign({}, defaultErr);
+  console.log("in global error handler")
 });
 
 app.listen(PORT, () => {
