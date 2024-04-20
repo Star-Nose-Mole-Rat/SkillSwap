@@ -15,7 +15,7 @@ searchController.searchVideo = async (req, res, next) => {
   );
 
   try {
-    const query = Video.find({ subject: searchword }).select("url -_id");
+    const query = Video.find({ subject: searchword });
     const videoList = await query.exec();
     if (videoList.length === 0) {
       return res.status(404).json({ message: "No videos matched" });
